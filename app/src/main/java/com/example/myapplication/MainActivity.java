@@ -25,8 +25,6 @@ import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.ui.login.ParseLoginBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
