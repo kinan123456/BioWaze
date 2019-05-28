@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MedicalCard.MedicalCardScreen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="shareMedicalDataClick"
+                android:text="Share Medical Data"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="myHistoryClick"
+                android:text="My History"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="shareCardClick"
+                android:text="Share the card"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+        </TableLayout>
+    </ScrollView>
+</RelativeLayout>

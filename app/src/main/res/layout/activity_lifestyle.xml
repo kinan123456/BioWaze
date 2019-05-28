@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:scrollbars="vertical"
+    tools:context=".UserActivities.LifestyleActivity">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/foodRelatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="-1dp"
+            android:onClick="foodRelatedClick"
+            android:text="Food Related"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textStyle="bold"></Button>
+
+        <Button
+            android:id="@+id/sportMovementButton"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="-1dp"
+            android:onClick="sportMovementClick"
+            android:text="Sport / Movement"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textStyle="bold"></Button>
+
+        <Button
+            android:id="@+id/medicalProcedureAction"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="-1dp"
+            android:onClick="medicalProcedureClick"
+            android:text="Medical Action / Procedure"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textStyle="bold"></Button>
+
+        <Button
+            android:id="@+id/goodBadDeed"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="-1dp"
+            android:onClick="goodBadDeedClick"
+            android:text="Good/Bad Deed"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textStyle="bold"></Button>
+
+        <Button
+            android:id="@+id/work"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="-1dp"
+            android:onClick="workClick"
+            android:text="Work"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:textStyle="bold"></Button>
+    </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

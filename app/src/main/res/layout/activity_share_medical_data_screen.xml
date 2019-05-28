@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MedicalCard.ShareMedicalDataScreen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="AnthropometricDataClick"
+                android:text="Share Anthropometric Data"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="MedicalTestClick"
+                android:text="Share Your Medical Test"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="DoctorVisitClick"
+                android:text="Share Your Doctor Visits"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+
+            <EditText
+                android:id="@+id/DescribeThePast"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:text="Describe your past"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></EditText>
+
+            <EditText
+                android:id="@+id/DescribeTheEnvironment"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:text="Describe Your Environment"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="visible"></EditText>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="UploadDataFromDevicesClick"
+                android:text="Upload Data From Your Device"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="MoreClick"
+                android:text="More"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="SubmitClick"
+                android:text="Submit"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+        </TableLayout>
+    </ScrollView>
+</RelativeLayout>

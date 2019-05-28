@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="ltr"
+    tools:context=".UserHistory.UserHistoryScreen"
+    android:fillViewport="true">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            android:id="@+id/form_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/labelUserHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:text="Here you can visualize your Lifestyle History data."
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                android:id="@+id/secondLabelHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/labelUserHistory"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+
+                android:text="First, select a category"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/categoryHistoryGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/secondLabelHistory"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:padding="6dp">
+                <RadioButton
+                    android:id="@+id/feelRadio"
+                    android:layout_width="252dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Feelings History"
+                    android:textSize="20dp"></RadioButton>
+                <RadioButton
+                    android:id="@+id/foodRadio"
+                    android:layout_width="152dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Food History"
+                    android:textSize="20dp">
+
+                </RadioButton>
+
+            </RadioGroup>
+            <TextView
+                android:id="@+id/timePeriodHistoryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/categoryHistoryGroup"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+
+                android:text="Time peroid isn't available yet."
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+            <TextView
+                android:id="@+id/visualizeHistoryBy"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/timePeriodHistoryLabel"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+
+                android:text="Display by,"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+
+            <RadioGroup
+                android:id="@+id/visualizeByGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/visualizeHistoryBy"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:padding="6dp">
+                <RadioButton
+                    android:id="@+id/graphViewRadio"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Graph View"
+                    android:textSize="20dp"></RadioButton>
+                <RadioButton
+                    android:id="@+id/tableViewRadio"
+                    android:layout_width="152dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Table View"
+                    android:textSize="20dp">
+
+                </RadioButton>
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/submitButtonHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/visualizeByGroup"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:onClick="submitHistoryClick"
+                android:text="Submit" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

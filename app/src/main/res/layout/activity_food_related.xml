@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+
+    tools:context=".UserActivities.FoodRelatedActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/whatEattenText"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="40dp"
+                android:text="What did you eat?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <EditText
+                android:id="@+id/whatEattenContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="30dp"
+                android:hint="e.g. Hamburger" />
+
+            <ImageButton
+                android:id="@+id/uploadPhotoImageButton"
+                android:layout_width="78dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="90dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/upload_icon"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:onClick="uploadFoodPicClick"></ImageButton>
+
+            <TextView
+                android:id="@+id/uploadPictureText"
+                android:layout_width="121dp"
+                android:layout_height="64dp"
+                android:layout_below="@id/uploadPhotoImageButton"
+
+                android:layout_marginLeft="34dp"
+                android:layout_marginTop="-5dp"
+                android:text="Upload picture"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <ImageView
+                android:id="@+id/foodImage"
+                android:layout_width="246dp"
+                android:layout_height="121dp"
+                android:layout_marginTop="90dp"
+                android:layout_toRightOf="@id/uploadPictureText">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/NoteLabel"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/uploadPictureText"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Note"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <EditText
+                android:id="@+id/NoteContent"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@id/NoteLabel"
+                android:layout_marginLeft="15dp"
+                android:gravity="top"
+                android:hint="e.g. The food is cold. I didn't like it :("
+                android:inputType="text|textMultiLine" />
+
+            <TextView
+                android:id="@+id/WhyEatLabel"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/NoteContent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:text="Why did you eat?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <RadioGroup
+                android:id="@+id/whyEatRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/WhyEatLabel"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <RadioButton
+                    android:id="@+id/hungryRadio"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@id/WhyEatLabel"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Hungry"
+                    android:textSize="20dp">
+
+                </RadioButton>
+
+                <RadioButton
+                    android:id="@+id/socialRadio"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Social"
+                    android:textSize="20dp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/wasTimeRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="It was time"
+                    android:textSize="20dp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/boredRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Bored"
+                    android:textSize="20dp"></RadioButton>
+                <RadioButton
+                    android:id="@+id/stressedRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Stressed"
+                    android:textSize="20dp"></RadioButton>
+
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/howWasLabel"
+                android:layout_below="@id/WhyEatLabel"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="130dp"
+                android:text="How was it?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <RadioGroup
+                android:id="@+id/howWasRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/howWasLabel"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <RadioButton
+                    android:id="@+id/wasForgettableRadio"
+                    android:layout_width="152dp"
+                    android:layout_height="25dp"
+                    android:layout_below="@id/WhyEatLabel"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Forgetabble"
+                    android:textSize="20dp">
+
+                </RadioButton>
+
+                <RadioButton
+                    android:id="@+id/wasGoodRadio"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Good"
+                    android:textSize="20dp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/wasAwesomeRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Awesome"
+                    android:textSize="20dp"></RadioButton>
+
+            </RadioGroup>
+
+
+
+            <TextView
+                android:id="@+id/whereEatLabel"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/howWasLabel"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="130dp"
+                android:text="Where did you eat??"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <RadioGroup
+                android:id="@+id/whereEatRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/whereEatLabel"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <RadioButton
+                    android:id="@+id/tableRadio"
+                    android:layout_width="152dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Table"
+                    android:textSize="20dp">
+
+                </RadioButton>
+
+                <RadioButton
+                    android:id="@+id/TVRadio"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="TV"
+                    android:textSize="20dp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/carRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Car"
+                    android:textSize="20dp"></RadioButton>
+                <RadioButton
+                    android:id="@+id/homeRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Home"
+                    android:textSize="20dp"></RadioButton>
+
+            </RadioGroup>
+
+
+
+
+
+            <TextView
+                android:id="@+id/makeYouFeelLabel"
+                android:layout_width="237dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/whereEatLabel"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="130dp"
+                android:text="How did it make you feel?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <RadioGroup
+                android:id="@+id/makeYouFeelRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/makeYouFeelLabel"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <RadioButton
+                    android:id="@+id/feelSatisfiedRadio"
+                    android:layout_width="152dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Satisfied"
+                    android:textSize="20dp">
+
+                </RadioButton>
+
+                <RadioButton
+                    android:id="@+id/stillHungryRadio"
+                    android:layout_width="150dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Still Hungry"
+                    android:textSize="20dp"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/stuffedRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Stuffed"
+                    android:textSize="20dp"></RadioButton>
+                <RadioButton
+                    android:id="@+id/guiltyRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Guilty"
+                    android:textSize="20dp"></RadioButton>
+                <RadioButton
+                    android:id="@+id/happyRadio"
+                    android:layout_width="177dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginLeft="37dp"
+                    android:text="Happy"
+                    android:textSize="20dp"></RadioButton>
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/shareFoodRelatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/makeYouFeelLabel"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="180dp"
+                android:text="Share"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:onClick="shareFoodOnClick"></Button>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
