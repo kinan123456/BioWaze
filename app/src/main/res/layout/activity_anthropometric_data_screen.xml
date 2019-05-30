@@ -21,8 +21,7 @@
                 android:layout_column="0"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
-                android:onClick="Weight???"
-                android:text="Weight"
+                android:hint="Weight"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></EditText>
@@ -35,8 +34,7 @@
                 android:layout_column="0"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
-                android:onClick="myHistoryClick???"
-                android:text="Waist Circumference"
+                android:hint="WaistCircumference"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></EditText>
@@ -49,8 +47,7 @@
                 android:layout_column="0"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
-                android:onClick="shareCardClick???"
-                android:text="Height"
+                android:hint="height"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></EditText>
@@ -63,8 +60,7 @@
                 android:layout_column="0"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
-                android:onClick="shareCardClick???"
-                android:text="Blood Pressure"
+                android:hint="bloodPressure"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></EditText>
@@ -77,8 +73,7 @@
                 android:layout_column="0"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
-                android:onClick="shareCardClick???"
-                android:text="Pulse"
+                android:hint="Pulse"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></EditText>
@@ -89,7 +84,7 @@
                 android:layout_column="0"
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
-                android:onClick="SubmitClick"
+                android:onClick="Sub  mitClick"
                 android:text="Submit"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
