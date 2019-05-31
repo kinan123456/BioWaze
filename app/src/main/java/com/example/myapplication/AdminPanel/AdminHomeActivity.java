@@ -14,18 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.SampleDispatchActivity;
+import com.parse.ParseUser;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
 
     private static final int DIALOG_ALERT = 10;
-
+    private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
         setTitle("Welcome, Admin");
+        currentUser = ParseUser.getCurrentUser();
     }
 
     @Override
@@ -74,6 +76,9 @@ public class AdminHomeActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             Toast.makeText(getApplicationContext(), "You have been logged out",
                     Toast.LENGTH_LONG).show();
+            // User clicked to log out.
+            ParseUser.logOut();
+            currentUser = null;
             Intent intent = new Intent(getApplicationContext(), SampleDispatchActivity.class);
             startActivity(intent);
         }

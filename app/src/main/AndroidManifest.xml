@@ -38,7 +38,8 @@
         <activity
             android:name=".UserActivities.ShareFeelingsActivity"
             android:parentActivityName=".UserActivities.UserActivitiesScreen" />
-        <activity android:name=".SampleDispatchActivity">
+        <activity android:name=".SampleDispatchActivity"
+            android:parentActivityName=".SampleDispatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
