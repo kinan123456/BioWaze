@@ -69,6 +69,8 @@ public class FoodRelatedActivity extends AppCompatActivity {
             progressDialog.setContentView(new ProgressBar(this));
             ParseObject foodHistory = new ParseObject("FoodHistory");
             foodHistory.put("user", ParseUser.getCurrentUser().getUsername());
+            // Add a relation between the FoodHistory row with user id
+            foodHistory.put("parent", ParseObject.createWithoutData("User", ParseUser.getCurrentUser().getObjectId()));
             foodHistory.put("whatEat", whatEattenContent.getText().toString());
             foodHistory.put("noteEat", noteContent.getText().toString());
             foodHistory.put("whyEat", whyEatRadioValue);
