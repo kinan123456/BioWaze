@@ -17,8 +17,8 @@ public class AnthropometricDataScreen extends AppCompatActivity {
 
         getVariables();
         ParseObject AnthropometricData = new ParseObject("AnthropometricData");
-        AnthropometricData.put("weight", weight);
-        AnthropometricData.put("height",height);
+        AnthropometricData.put("weight", Integer.parseInt(weight.getText().toString()));
+        AnthropometricData.put("height",Integer.parseInt(height.getText().toString()));
         AnthropometricData.put("waistCircuference",WaistCircumference);
         AnthropometricData.put("pulse",pulse);
         AnthropometricData.put("bloodPressure",bloodPressure);
