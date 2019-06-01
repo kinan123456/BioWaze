@@ -54,7 +54,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                 // create out AlterDialog
                 Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Do you want to log out?");
-                builder.setCancelable(true);
+                builder.setCancelable(false);
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();

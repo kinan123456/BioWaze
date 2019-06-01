@@ -42,6 +42,9 @@ public class ManageUsersActivity extends AppCompatActivity {
      * Set row header of the TableLayout
      */
     public void initTableHeaderRow() {
+        /***
+         * TODO Add User Button - adds to TableLayout and to Parse Cloud Database
+         */
         /*Button addUser = new Button(this);
         addUser.setText("Add New User");
         addUser.setOnClickListener(new View.OnClickListener() {

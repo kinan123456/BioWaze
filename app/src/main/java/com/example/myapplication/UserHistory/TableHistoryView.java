@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -173,10 +174,10 @@ public class TableHistoryView extends AppCompatActivity {
                         break;
                 }
 
+
                 tableRow.addView(tcView);   //add textView to the row
 
             }
-
             tableLayout.addView(tableRow);
             //refreshTable(); //refresh table
         }
