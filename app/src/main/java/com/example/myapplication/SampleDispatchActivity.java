@@ -6,6 +6,7 @@ package com.example.myapplication;
 
 import android.widget.Toast;
 
+import com.example.myapplication.AdminPanel.AdminHomeActivity;
 import com.parse.ui.login.ParseLoginDispatchActivity;
 
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {

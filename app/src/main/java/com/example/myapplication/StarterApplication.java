@@ -14,7 +14,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRole;
 import com.parse.SaveCallback;
-import com.parse.facebook.ParseFacebookUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,8 +44,8 @@ public class StarterApplication extends Application {
         defaultACL.setPublicReadAccess(true);
 
         ParseACL.setDefaultACL(defaultACL, true);
-        ParseRole role = new ParseRole("Administrator", defaultACL);
-        role.saveInBackground();
+        //ParseRole role = new ParseRole("Administrator", defaultACL);
+        //role.saveInBackground();
 
     }
 
