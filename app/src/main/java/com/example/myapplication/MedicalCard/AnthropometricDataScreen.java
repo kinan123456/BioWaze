@@ -2,6 +2,9 @@ package com.example.myapplication.MedicalCard;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,14 +15,21 @@ public class AnthropometricDataScreen extends AppCompatActivity {
 
     public void SubmitClick(View view){
 
+        getVariables();
+        ParseObject AnthropometricData = new ParseObject("AnthropometricData");
+        AnthropometricData.put("weight", weight);
+        AnthropometricData.put("height",height);
+        AnthropometricData.put("waistCircuference",WaistCircumference);
+        AnthropometricData.put("pulse",pulse);
+        AnthropometricData.put("bloodPressure",bloodPressure);
     }
 
-    public void initVariables(){
+    public void getVariables(){
         weight = (EditText) findViewById(R.id.Weight);
         height = (EditText) findViewById(R.id.Height);
         WaistCircumference = (EditText) findViewById(R.id.WaistCircumference);
         pulse = (EditText) findViewById(R.id.Pulse);
-        bloodPressure = (EditText) findViewById(R.id.BloodPressure);
+        bloodPressure = (EditText)  findViewById(R.id.BloodPressure);
     }
 
     @Override
@@ -27,6 +37,5 @@ public class AnthropometricDataScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anthropometric_data_screen);
         setTitle("Anthropometric Data");
-        initVariables();
     }
 }
