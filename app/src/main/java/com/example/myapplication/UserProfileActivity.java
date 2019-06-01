@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,13 +41,15 @@ public class UserProfileActivity extends AppCompatActivity {
                     // User clicked to log out.
                     ParseUser.logOut();
                     currentUser = null;
-                    showProfileLoggedOut();
-                } else {
+                    Intent intent = new Intent(getApplicationContext(), SampleDispatchActivity.class);
+                    startActivity(intent);
+                    //showProfileLoggedOut();
+                } /*else {
                     // User clicked to log in.
                     ParseLoginBuilder loginBuilder = new ParseLoginBuilder(
                             UserProfileActivity.this);
                     startActivityForResult(loginBuilder.build(), LOGIN_REQUEST);
-                }
+                }*/
             }
         });
     }
@@ -58,9 +61,9 @@ public class UserProfileActivity extends AppCompatActivity {
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             showProfileLoggedIn();
-        } else {
+        } /*else {
             showProfileLoggedOut();
-        }
+        }*/
     }
 
     /**

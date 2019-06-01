@@ -64,6 +64,8 @@ public class ShareFeelingsActivity extends AppCompatActivity {
                 feelingsHistory.put("stoppedDate", stoppedFeelingDate);
                 feelingsHistory.put("possibleReason", reason);
                 feelingsHistory.put("user", ParseUser.getCurrentUser().getUsername());
+                feelingsHistory.put("parent", ParseObject.createWithoutData("User", ParseUser.getCurrentUser().getObjectId()));
+
                 feelingsHistory.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

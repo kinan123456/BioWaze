@@ -4,6 +4,8 @@
 
 package com.example.myapplication;
 
+import android.widget.Toast;
+
 import com.parse.ui.login.ParseLoginDispatchActivity;
 
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
@@ -17,5 +19,13 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
     protected Class<?> getTargetClass() {
 
         return MainActivity.class;
+
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Toast.makeText(SampleDispatchActivity.this, "Nothing happens.", Toast.LENGTH_LONG).show();
+
     }
 }
