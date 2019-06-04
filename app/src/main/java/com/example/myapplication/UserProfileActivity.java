@@ -1,3 +1,9 @@
+/***
+ * @author Kinan & Luzeen
+ * This Activity for the User Profile.
+ * He can view his profile account information or perform Logout if he wants to
+ */
+
 package com.example.myapplication;
 
 import android.content.Intent;
@@ -10,10 +16,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.ParseUser;
-import com.parse.ui.login.ParseLoginBuilder;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    /***
+     * Variables Initialization
+     */
     private static final int LOGIN_REQUEST = 0;
 
     private TextView titleTextView;
@@ -23,6 +31,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private ParseUser currentUser;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

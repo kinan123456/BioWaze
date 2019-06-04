@@ -1,22 +1,31 @@
+/***
+ * @author Kinan & Luzeen
+ * This Activity is for the Administrator only
+ * He can Manage the Cloud Databse Users Table
+ * Either he deletes specific user or can add a new User to the database
+ */
+
 package com.example.myapplication.AdminPanel;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
-import com.example.myapplication.UserHistory.TableHistoryView;
-import com.example.myapplication.UserHistory.UserHistoryScreen;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -24,10 +33,50 @@ import java.util.List;
 
 public class ManageUsersActivity extends AppCompatActivity {
 
+    /***
+     * Variables Initialization
+     */
     private TableLayout usersTable;
 
-
+    /**
+     * Set row header of the TableLayout
+     */
     public void initTableHeaderRow() {
+        /***
+         * TODO Add User Button - adds to TableLayout and to Parse Cloud Database
+         */
+        /*Button addUser = new Button(this);
+        addUser.setText("Add New User");
+        addUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(ManageUsersActivity.this);
+                final EditText edittext = new EditText(ManageUsersActivity.this);
+                alert.setMessage("Enter Your Message");
+                alert.setTitle("Enter Your Title");
+
+                alert.setView(edittext);
+
+                alert.setPositiveButton("Yes Option", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //What ever you want to do with the value
+                        Editable YouEditTextValue = edittext.getText();
+
+                    }
+                });
+
+                alert.setNegativeButton("No Option", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // what ever you want to do with No option.
+                    }
+                });
+
+                alert.show();
+            }
+        });
+        usersTable.addView(addUser);*/
+
+
         TableRow tr_head = new TableRow(this);
         //tr_head.setId(10);
         tr_head.setBackgroundColor(Color.GRAY);
@@ -62,22 +111,32 @@ public class ManageUsersActivity extends AppCompatActivity {
                 TableRow.LayoutParams.WRAP_CONTENT));
     }
 
+    /**
+     * Put content on TableLayout
+     * @param list
+     */
     public void putOnTable(List<ParseUser> list) {
         if (list.isEmpty()) {
             Toast.makeText(ManageUsersActivity.this, "No users registered" + "\n" +
                     "You can add users by yourself: Click 'Add User'.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(),AdminHomeActivity.class));
         } else {
+            //addUserButton();
             initTableHeaderRow();
             setTableRows(list);   //Set Table Content in rows
         }
     }
 
+    /**
+     * Set all users on the TableLayout
+     * @param list
+     */
     public void setTableRows(List<ParseUser> list) {
         Integer count=0;
-        for (ParseObject obj : list) {
+        for (final ParseUser obj : list) {
 
             // Create the table row
-            TableRow tr = new TableRow(this);
+            final TableRow tr = new TableRow(this);
             if (count % 2 != 0)
                 tr.setBackgroundColor(Color.GRAY);
             else
@@ -93,7 +152,7 @@ public class ManageUsersActivity extends AppCompatActivity {
             username.setTextColor(Color.WHITE);
             tr.addView(username);
 
-            TextView name = new TextView(this);
+            final TextView name = new TextView(this);
             name.setId(200 + count);
             name.setText(obj.getString("name"));
             name.setTextColor(Color.WHITE);
@@ -105,12 +164,28 @@ public class ManageUsersActivity extends AppCompatActivity {
             password.setTextColor(Color.WHITE);
             tr.addView(password);
 
+            Button delete = new Button(this);
+            delete.setText("Delete");
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    obj.deleteInBackground();
+                    usersTable.removeView(tr);
+                    /***
+                     * @TODO delete all relations for deleted user: e.g. delete rows of other tables that user made in past
+                     */
+                }
+            });
+            tr.addView(delete);
             // finally add this to the table row
             usersTable.addView(tr);
             count++;
         }
     }
 
+    /**
+     * Query from Cloud Database to get all the registered users
+     */
     public void getDatabaseContent() {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -127,6 +202,9 @@ public class ManageUsersActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
