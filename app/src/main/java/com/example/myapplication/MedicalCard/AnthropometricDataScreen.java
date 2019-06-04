@@ -29,7 +29,7 @@ public class AnthropometricDataScreen extends AppCompatActivity {
         height = (EditText) findViewById(R.id.Height);
         WaistCircumference = (EditText) findViewById(R.id.WaistCircumference);
         pulse = (EditText) findViewById(R.id.Pulse);
-        bloodPressure = (EditText)  findViewById(R.id.BloodPressure);
+        bloodPressure = (EditText) findViewById(R.id.BloodPressure);
     }
 
     @Override
