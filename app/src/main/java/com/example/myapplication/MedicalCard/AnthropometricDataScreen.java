@@ -21,7 +21,7 @@ public class AnthropometricDataScreen extends AppCompatActivity {
         AnthropometricData.put("height",Integer.parseInt(height.getText().toString()));
         AnthropometricData.put("waistCircuference",WaistCircumference);
         AnthropometricData.put("pulse",pulse);
-        AnthropometricData.put("bloodPressure",bloodPressure);
+        AnthropometricData.put("bloodPressure",Integer.parseInt(bloodPressure.getText().toString()));
     }
 
     public void getVariables(){
