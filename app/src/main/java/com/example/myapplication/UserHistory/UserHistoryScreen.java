@@ -22,9 +22,8 @@ import com.example.myapplication.R;
 
 public class UserHistoryScreen extends AppCompatActivity {
     private RadioGroup categoryHistoryGroup, visualizeByGroup;
-    private TextView timePeriodHistoryLabel, visualizeHistoryBy;
-    private Button submitButtonHistory;
-
+    private TextView visualizeHistoryBy;
+    private Button pickDate, submitButtonHistory;
 
     /***
      * TODO: Time period : XML GUI , Handle selected dates when click Submit Button
@@ -76,29 +75,36 @@ public class UserHistoryScreen extends AppCompatActivity {
      */
     public void initScreenFields() {
         //Initialize variables
-        categoryHistoryGroup = (RadioGroup) findViewById(R.id.categoryHistoryGroup);
-        visualizeByGroup = (RadioGroup) findViewById(R.id.visualizeByGroup);
-        timePeriodHistoryLabel = (TextView) findViewById(R.id.timePeriodHistoryLabel);
-        visualizeHistoryBy = (TextView) findViewById(R.id.visualizeHistoryBy);
-        submitButtonHistory = (Button) findViewById(R.id.submitButtonHistory);
+        categoryHistoryGroup = findViewById(R.id.categoryHistoryGroup);
+        visualizeByGroup = findViewById(R.id.visualizeByGroup);
+        pickDate = findViewById(R.id.pickDateButton);
+        visualizeHistoryBy = findViewById(R.id.visualizeHistoryBy);
+        submitButtonHistory =  findViewById(R.id.submitButtonHistory);
 
         //hide few elements at first
-        timePeriodHistoryLabel.setVisibility(View.GONE);
+        pickDate.setVisibility(View.GONE);
         visualizeHistoryBy.setVisibility(View.GONE);
         visualizeByGroup.setVisibility(View.GONE);
         submitButtonHistory.setVisibility(View.GONE);
+
         //set listeners for Radio Groups
         categoryHistoryGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 //show hidden elements
-                timePeriodHistoryLabel.setVisibility(View.VISIBLE);
+                pickDate.setVisibility(View.VISIBLE);
                 visualizeHistoryBy.setVisibility(View.VISIBLE);
                 visualizeByGroup.setVisibility(View.VISIBLE);
                 submitButtonHistory.setVisibility(View.VISIBLE);
             }
         });
+
+    }
+
+    public void datePickerOnClick(View view) {
+
+
 
     }
 
@@ -112,5 +118,7 @@ public class UserHistoryScreen extends AppCompatActivity {
         setTitle("History Information");
 
         initScreenFields();
+
+
     }
 }

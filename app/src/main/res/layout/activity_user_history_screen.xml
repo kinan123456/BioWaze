@@ -69,24 +69,24 @@
                 </RadioButton>
 
             </RadioGroup>
-            <TextView
-                android:id="@+id/timePeriodHistoryLabel"
+
+            <Button
+                android:id="@+id/pickDateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_below="@id/categoryHistoryGroup"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
-
-                android:text="Time peroid isn't available yet."
+                android:onClick="datePickerOnClick"
+                android:text="Pick Date"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
-                android:textStyle="bold">
-            </TextView>
+                android:textStyle="bold"></Button>
             <TextView
                 android:id="@+id/visualizeHistoryBy"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:layout_below="@id/timePeriodHistoryLabel"
+                android:layout_below="@id/pickDateButton"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
 
@@ -134,6 +134,11 @@
                 android:layout_marginTop="50dp"
                 android:onClick="submitHistoryClick"
                 android:text="Submit" />
+
+            <com.squareup.timessquare.CalendarPickerView
+                android:id="@+id/calendarPickerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></com.squareup.timessquare.CalendarPickerView>
         </RelativeLayout>
     </ScrollView>
 
