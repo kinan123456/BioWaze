@@ -7,6 +7,7 @@ package com.example.myapplication;
 import android.widget.Toast;
 
 import com.example.myapplication.AdminPanel.AdminHomeActivity;
+import com.parse.ParseUser;
 import com.parse.ui.login.ParseLoginDispatchActivity;
 
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
@@ -18,6 +19,8 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
      */
     @Override
     protected Class<?> getTargetClass() {
+        if (ParseUser.getCurrentUser().getUsername().equals("admin1@walla.com"))
+            return AdminHomeActivity.class;
 
         return MainActivity.class;
 

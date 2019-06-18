@@ -7,16 +7,12 @@
 
 package com.example.myapplication.UserHistory;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -146,7 +142,8 @@ public class TableHistoryView extends AppCompatActivity {
                         tcView.setText(toPut);
                         break;
 
-                    case "image":   //Food History column
+                    case "image" +
+                            "":   //Food History column
                         ParseFile imageFile = (ParseFile) obj.get("image");
                         imageFile.getDataInBackground(new GetDataCallback() {
                             public void done(byte[] data, ParseException e) {

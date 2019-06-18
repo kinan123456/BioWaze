@@ -19,13 +19,13 @@
         android:onClick="manageUsers" />
 
     <Button
-        android:id="@+id/ManageDatabaseButton"
+        android:id="@+id/startAnalyzeClickButton"
         android:layout_width="228dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ManageUsersButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="68dp"
-        android:text="Manage Cloud Database"
-        android:onClick="manageDatabase" />
+        android:text="More Options"
+        android:onClick="moreOptionsAdminClick" />
 
 </RelativeLayout>

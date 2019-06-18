@@ -1,3 +1,10 @@
+/***
+ * @author Kinan & Luzeen
+ * GraphHistoryView Activity is for data visualization
+ * We get the selected choice from the previous activity (UserHistoryScreen) and handle it in
+ * this intent. We display the data in a GraphView
+ */
+
 package com.example.myapplication.UserHistory;
 
 import android.content.Intent;
@@ -17,6 +24,7 @@ import android.widget.Toast;
 import com.parse.GetDataCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GraphHistoryView extends AppCompatActivity {
@@ -75,4 +83,5 @@ public class GraphHistoryView extends AppCompatActivity {
         receivedListName = intent.getStringExtra("listName");
         getDataFromCloud();
     }
+
 }

@@ -1,3 +1,9 @@
+/***
+ * @author Kinan & Luzeen
+ * DataAnalysisActivity is to analyze the lifestyle input data
+ * To be more specific, it analyzes and relationship between food and feelings
+ */
+
 package com.example.myapplication.DataAnalysis;
 
 import android.os.Bundle;
@@ -13,114 +19,150 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.apache.commons.collections.MultiMap;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static android.os.Build.VERSION_CODES.M;
-
 public class DataAnalysisActivity extends AppCompatActivity {
 
-    private ArrayList<WhenWhatEat> whenWhatEatArrayList;
-    private HashMap<String, HashSet<String>> foodKindsWithDates;
+    /***
+     * Variables Deceleration
+     */
+    private HashMap<String, HashSet<String>> DBFeeLingList;
+    private HashMap<String, HashSet<String>> DBFoodList;
+    private HashSet<String> allDates;
+    private HashSet<String> allFoodKinds;
+    private HashSet<String> allFeelingKinds;
 
     /***
-     *
+     *  Method to analyze lifestyle input data
+     *  first we query the Database to get all food kinds and all feelings kinds for each input
+     *  with its date then we save them, after that we send them to server to analyze the data
      * @param view
      */
     public void startAnalyzeClick(View view) {
-        getFoodKindsDataFromCloud("FoodHistory");
+        Iterator<Map.Entry<String, HashSet<String>>> it;
+        getDataToAnalyze("FeelingsHistory", "feeling");
+        allDates.clear();
+        it = DBFeeLingList.entrySet().iterator();   //to remove empty values from map
+        while (it.hasNext()) {
+            Map.Entry<String, HashSet<String>> e = it.next();
+            String key = e.getKey();
+            HashSet<String> value = e.getValue();
+            if (value.isEmpty()) {
+                it.remove();
+            }
+        }
+        getDataToAnalyze("FoodHistory", "whatEat");
+        it = DBFoodList.entrySet().iterator();  //to remove empty values from map
+        while (it.hasNext()) {
+            Map.Entry<String, HashSet<String>> e = it.next();
+            String key = e.getKey();
+            HashSet<String> value = e.getValue();
+            if (value.isEmpty()) {
+                it.remove();
+            }
+        }
+
+        Toast.makeText(DataAnalysisActivity.this, "foodList = " + allFoodKinds.size()
+                + "\nfeelingsList = " + allFeelingKinds.size(), Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Query from Parse Dashboard to get all food kinds for a User
+    /***
+     * Query from Parse Dashboard to get all food kinds & feelings kinds input for a User
+     * @param tableName
+     * @param colName
      */
-    public void getFoodKindsDataFromCloud(String tableName) {
+    public void getDataToAnalyze(final String tableName, final String colName) {
+
         ParseQuery<ParseObject> query;
-        ArrayList<String> columnsKeys = new ArrayList<>();
-        final HashSet<String> allDates = new HashSet<>();
-        columnsKeys.add("createdAt");
-        columnsKeys.add("whatEat");
-        query = ParseQuery.getQuery(tableName);
+        query = ParseQuery.getQuery(tableName); //query from table FoodHistory or FeelingsHistory
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
         query.orderByAscending("createdAt");
-        query.selectKeys(columnsKeys);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
+
                     //save all dates in a list
+                    Date date;
                     for (ParseObject obj : list) {
-                        Date date = obj.getCreatedAt();
+                        if (colName.equals("whatEat"))  //foodHistory
+                        {
+                            date = obj.getCreatedAt();
+                        } else {
+                            date = obj.getDate("startedDate");
+                        }
+
                         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                         String dateCreatedText = formatter.format(date);
-                        allDates.add(dateCreatedText);
+
+                        allDates.add(dateCreatedText);  //save all dates in a list
                     }
 
-                    //scan this list: for each date get all food kinds from 'list' we got we DB
+                    //scan this list: for each date get all food/feelings kinds from 'list' we got we DB
                     for (String dateString : allDates) {
-                        HashSet<String> foodKinds = new HashSet<>();
+                        HashSet<String> kinds = new HashSet<>();
+                        Date d;
                         for (ParseObject obj : list) {
-                            Date d = obj.getCreatedAt();
+                            if (colName.equals("whatEat"))  //foodHistory
+                            {
+                                d = obj.getCreatedAt();
+                            } else {
+                                d = obj.getDate("startedDate");
+                            }
                             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                             String dd = formatter.format(d);
                             if (dateString.equals(dd)) {
-                                foodKinds.add(obj.getString("whatEat"));
+                                kinds.add(obj.getString(colName));  //add 'food kind' or 'feeling kind' to set
+                                //distinct values
+                                if (colName.equals("whatEat")) {
+                                    allFoodKinds.add(obj.getString(colName));
+                                } else {
+                                    allFeelingKinds.add(obj.getString(colName));
+                                }
                             }
                         }
-                        foodKindsWithDates.put(dateString, foodKinds);
-                        foodKinds.clear();
+                        if (colName.equals("whatEat"))  //foodHistory
+                        {
+                            DBFoodList.put(dateString, kinds);
+                        } else {
+                            DBFeeLingList.put(dateString, kinds);
+                        }
                     }
-
-
-
                 } else {
                     Toast.makeText(DataAnalysisActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
+
     }
 
     /***
      * Method to initialize all variables that are in this class
      */
     public void initializeVariables() {
-        foodKindsWithDates = new HashMap<>();
-        whenWhatEatArrayList = new ArrayList<>();
+        DBFeeLingList = new HashMap<>();
+        DBFoodList = new HashMap<>();
+        allDates = new HashSet<>();
+        allFeelingKinds = new HashSet<>();
+        allFoodKinds = new HashSet<>();
     }
 
+    /***
+     * Start method: initialize variables of this class and setTitle for this activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_data_analysis);
+        setTitle("Data Analysis");
         initializeVariables();
     }
 
-    private class WhenWhatEat {
-        private Date whenEat;
-        private HashSet<String> whatEat;
-
-        public WhenWhatEat() {
-            whenEat = new Date();
-            whatEat = new HashSet<>();
-        }
-
-        public void setWhenEat(Date whenEat) {
-            this.whenEat = whenEat;
-        }
-
-        public Date getWhenEat() {
-            return this.whenEat;
-        }
-
-        public void setWhatEat(HashSet<String> whatEat) {
-
-        }
-    }
 }

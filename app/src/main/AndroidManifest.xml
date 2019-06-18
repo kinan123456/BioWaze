@@ -14,11 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminPanel.ManageCloudTablesActivity" />
         <activity android:name=".AdminPanel.ManageUsersActivity" />
         <activity android:name=".AdminPanel.AdminHomeActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".MedicalCard.AnthropometricDataScreen" />
+        <activity android:name=".DataAnalysis.DataAnalysisActivity" />
         <activity android:name=".MedicalCard.ShareMedicalDataScreen" />
         <activity
             android:name=".UserHistory.TableHistoryView"
