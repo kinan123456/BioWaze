@@ -43,7 +43,7 @@ public class UserHistoryScreen extends AppCompatActivity {
 
 
     /**
-     * Checkt the display choice (either graph view or table view)
+     * Check the display choice (either graph view or table view)
      * then open a new screen for data visualization
      * @param selectedCategoryText
      */
@@ -58,7 +58,9 @@ public class UserHistoryScreen extends AppCompatActivity {
             String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
             //if display by is Graph option
             if (selectedDisplayText.startsWith("Graph")) {
-                Toast.makeText(UserHistoryScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
+                intent.putExtra("listName", selectedCategoryText);
+                startActivity(intent);
 
 
             }  else{
