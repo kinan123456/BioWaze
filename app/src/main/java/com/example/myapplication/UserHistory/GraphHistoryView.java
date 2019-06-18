@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.parse.GetDataCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GraphHistoryView extends AppCompatActivity {
