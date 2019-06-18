@@ -11,21 +11,23 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import android.view.View;
+
 import android.os.Bundle;
 import android.widget.Toast;
-import com.parse.GetDataCallback;
 
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class GraphHistoryView extends AppCompatActivity {
 
 
     private String receivedListName;
-    private List<Integer> tempList1 = new ArrayList<>();
-    private List<Integer> tempList2 = new ArrayList<>();
     private LineGraphSeries<DataPoint> series;
+    private Map mapList = new HashMap();
+
 
     public void getDataFromCloud() {
         ParseQuery<ParseObject> query;
@@ -37,13 +39,12 @@ public class GraphHistoryView extends AppCompatActivity {
                 if (e == null) {
                     int l;
                     Date date;
-                    tempList1.clear();
-                    tempList2.clear();
-                    for (ParseObject obj : list){
+                   for (ParseObject obj : list){
                         l = obj.getInt(receivedListName);
-                        tempList1.add(l);
+                        date = obj.getCreatedAt();
+                        mapList.put(date,l);
                 }
-                    displayDataOnGraph(tempList1);   //display the data in graph view
+                    displayDataOnGraph(mapList);   //display the data in graph view
 
                 } else {
                     Toast.makeText(GraphHistoryView.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -53,15 +54,22 @@ public class GraphHistoryView extends AppCompatActivity {
     }
 
 
-    public void displayDataOnGraph(List list){
+    public <Iterator> void displayDataOnGraph(Map list){
         int size = list.size();
-
+        double y;
         GraphView graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>();
 
-        for(int i=0 ; i<size; i++){
+        Set key;
+        key = list.keySet();
 
+        for(Object s : key){
+            y=(double)list.get(s);
+            series.appendData(new DataPoint((Date) s,y),true,size);
         }
+
+        graph.addSeries(series);
+
     }
 
 
