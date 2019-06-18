@@ -104,9 +104,10 @@
                 android:layout_marginTop="0dp"
                 android:orientation="vertical"
                 android:padding="6dp">
+
                 <RadioButton
                     android:id="@+id/graphViewRadio"
-                    android:layout_width="100dp"
+                    android:layout_width="151dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="37dp"
                     android:layout_marginLeft="37dp"
@@ -123,6 +124,7 @@
 
                 </RadioButton>
 
+
             </RadioGroup>
 
             <Button
@@ -135,10 +137,7 @@
                 android:onClick="submitHistoryClick"
                 android:text="Submit" />
 
-            <com.squareup.timessquare.CalendarPickerView
-                android:id="@+id/calendarPickerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></com.squareup.timessquare.CalendarPickerView>
+
         </RelativeLayout>
     </ScrollView>
 

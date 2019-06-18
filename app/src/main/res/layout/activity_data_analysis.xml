@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DataAnalysis.DataAnalysisActivity">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        <RelativeLayout android:layout_height="match_parent"
+            android:layout_width="match_parent">
+            <TextView
+                android:id="@+id/dataAnalysisLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:text="Here you can check the analysis results of your provided Lifestyle Data."
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold">
+            </TextView>
+            <Button
+                android:id="@+id/startAnalyzeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/dataAnalysisLabel"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:onClick="startAnalyzeClick"
+                android:text="Start The Analysis"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

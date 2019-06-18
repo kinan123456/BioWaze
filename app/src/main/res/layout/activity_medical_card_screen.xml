@@ -36,6 +36,20 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-1dp"
+                android:onClick="dataAnalysisClick"
+                android:text="Data Analysis"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="100dp"

@@ -29,6 +29,15 @@ public class MedicalCardScreen extends AppCompatActivity {
 
     }
 
+    /***
+     * Data Analysis has been pressed - open new screen
+     * @param view
+     */
+    public void dataAnalysisClick(View view){
+        Intent intent = new Intent(getApplicationContext(),UserHistoryScreen.class);
+        startActivity(intent);
+    }
+
     /**
      * Share Medical Data button has been pressed - Open new screen
      * @param view

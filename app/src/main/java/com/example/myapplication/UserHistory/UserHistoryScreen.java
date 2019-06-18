@@ -53,13 +53,15 @@ public class UserHistoryScreen extends AppCompatActivity {
         if (selectedDisplay == -1) {
             Toast.makeText(UserHistoryScreen.this, "One or more fields are missing. Fill in everything.", Toast.LENGTH_LONG).show();
         } else {
-            RadioButton selectedDisplayRadioButton = (RadioButton) findViewById(selectedDisplay);
+
+            RadioButton selectedDisplayRadioButton = findViewById(selectedDisplay);
             String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
             //if display by is Graph option
             if (selectedDisplayText.startsWith("Graph")) {
                 Toast.makeText(UserHistoryScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
 
-            } else {
+
+            }  else{
                 //if display by is Table View option
                 Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
                 intent.putExtra("listName", selectedCategoryText);
@@ -116,9 +118,6 @@ public class UserHistoryScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_history_screen);
         setTitle("History Information");
-
         initScreenFields();
-
-
     }
 }
