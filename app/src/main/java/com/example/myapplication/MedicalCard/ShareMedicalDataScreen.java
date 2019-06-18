@@ -40,7 +40,6 @@ public class ShareMedicalDataScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_medical_data_screen);
+        setTitle("Medical Data");
     }
-
-
 }

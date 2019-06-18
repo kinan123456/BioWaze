@@ -118,7 +118,7 @@ public class UserActivitiesScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_activities_screen);
-        setTitle("Life-style Activities");
+        setTitle("Lifestyle Behaviours");
         initList();
         initActionBar();
     }

@@ -37,12 +37,13 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Profile Account");
 
         setContentView(R.layout.activity_user_profile);
-        titleTextView = (TextView) findViewById(R.id.profile_title);
-        emailTextView = (TextView) findViewById(R.id.profile_email);
-        nameTextView = (TextView) findViewById(R.id.profile_name);
-        loginOrLogoutButton = (Button) findViewById(R.id.login_or_logout_button);
+        titleTextView = findViewById(R.id.profile_title);
+        emailTextView =  findViewById(R.id.profile_email);
+        nameTextView = findViewById(R.id.profile_name);
+        loginOrLogoutButton = findViewById(R.id.login_or_logout_button);
         titleTextView.setText(R.string.profile_title_logged_in);
 
         loginOrLogoutButton.setOnClickListener(new OnClickListener() {

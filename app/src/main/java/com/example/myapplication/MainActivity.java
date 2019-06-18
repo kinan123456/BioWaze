@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("BioWaze Homepage");
+        setTitle("Homepage");
         /*ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
         startActivityForResult(builder.build(), 0);*/
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
@@ -112,4 +112,4 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
-//@TODO all buttons style (css), suitable titles for all screens, background, nav-bar,etc
+//@TODO contact us,all buttons style (css), suitable titles for all screens, background, nav-bar,facebook-login,reset password, email verification, etc
