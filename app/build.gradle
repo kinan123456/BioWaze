@@ -43,7 +43,7 @@ dependencies {
     implementation "com.github.parse-community.ParseUI-Android:login:0.0.5"
     implementation 'com.github.parse-community:ParseFacebookUtils-Android:1.13.0'
     implementation 'com.squareup:android-times-square:1.6.5@aar'
-
+    implementation 'com.jjoe64:graphview:4.2.1'
 
 }
 repositories {
