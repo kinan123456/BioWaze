@@ -56,15 +56,14 @@ public class GraphHistoryView extends AppCompatActivity {
 
     public void displayDataOnGraph(Map list){
         int size = list.size();
-        double y;
+        int y;
         GraphView graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>();
-        Set key;
+        Set<Object> key;
         key = list.keySet();
 
         for (Object s : key) {
-            y = (double) list.get(s);
-
+            y = (int) list.get((Date)s);
             series.appendData(new DataPoint((Date) s,y),true,size);
         }
 
