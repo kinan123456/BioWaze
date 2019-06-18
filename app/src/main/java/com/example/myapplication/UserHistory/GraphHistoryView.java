@@ -64,6 +64,7 @@ public class GraphHistoryView extends AppCompatActivity {
 
         for (Object s : key) {
             y = (int) list.get((Date)s);
+
             series.appendData(new DataPoint((Date) s,y),true,size);
         }
 
