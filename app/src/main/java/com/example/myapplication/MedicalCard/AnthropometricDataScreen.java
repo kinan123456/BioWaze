@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 public class AnthropometricDataScreen extends AppCompatActivity {
 
+    //TODO validate that this works 100% and to validate input details
     private EditText weight, height, bloodPressure, WaistCircumference, pulse;
 
     public void SubmitClick(View view){

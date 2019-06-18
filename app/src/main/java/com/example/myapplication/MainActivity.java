@@ -21,39 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.UserActivities.UserActivitiesScreen;
-import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    /**
-     * Check if Third-Party-Client (Android Java) is connected to Parse Cloud Functions
-     * If successfully connected, it will print 'hello from python'
-     */
-    public void makePythonTest() {
-        // Use this map to send parameters to your Cloud Code function
-        // Just push the parameters you want into it
-        Map<String, String> parameters = new HashMap<String, String>();
-
-        // This calls the function in the Cloud Code
-        ParseCloud.callFunctionInBackground("pythonTest", parameters, new FunctionCallback<Map<String, Object>>() {
-            @Override
-            public void done(Map<String, Object> mapObject, ParseException e) {
-                if (e == null) {
-                    // Everything is alright
-                    Toast.makeText(MainActivity.this, "Answer = " + mapObject.get("answer").toString(), Toast.LENGTH_LONG).show();
-                } else {
-                    // Something went wrong
-                }
-            }
-        });
-    }
 
     /**
      * Leave empty if you want nothing to happen on back press.
@@ -95,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void myNetworkClick(View view) {
         Toast.makeText(MainActivity.this, "Not available yet", Toast.LENGTH_LONG).show();
-
     }
 
     /**
@@ -141,3 +111,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+//@TODO all buttons style (css), suitable titles for all screens, background, nav-bar,etc

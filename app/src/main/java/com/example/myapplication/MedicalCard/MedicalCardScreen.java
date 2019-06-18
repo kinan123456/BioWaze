@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.DataAnalysis.DataAnalysisActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.UserHistory.UserHistoryScreen;
 
@@ -34,7 +35,7 @@ public class MedicalCardScreen extends AppCompatActivity {
      * @param view
      */
     public void dataAnalysisClick(View view){
-        Intent intent = new Intent(getApplicationContext(),UserHistoryScreen.class);
+        Intent intent = new Intent(getApplicationContext(), DataAnalysisActivity.class);
         startActivity(intent);
     }
 

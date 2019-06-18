@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.SampleDispatchActivity;
+import com.example.myapplication.UserProfileActivity;
 import com.parse.ParseUser;
 
 public class AdminHomeActivity extends AppCompatActivity {
@@ -30,21 +33,43 @@ public class AdminHomeActivity extends AppCompatActivity {
         currentUser = ParseUser.getCurrentUser();
     }
 
+    /**
+     * Create options menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-    /*    getMenuInflater().inflate(R.menu.admin_home, menu);*/
-        return true;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_items, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
+    /**
+     * Handle selected items from the options menu
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.myAccount) {
+            Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void manageUsers(View view){
         Intent intent = new Intent(getApplicationContext(), ManageUsersActivity.class);
         startActivity(intent);
     }
 
-    public void manageDatabase(View view){
-        Intent intent = new Intent(getApplicationContext(), ManageCloudTablesActivity.class);
-        startActivity(intent);
+    public void moreOptionsAdminClick(View view){
+        Toast.makeText(AdminHomeActivity.this, "Not available yet", Toast.LENGTH_LONG).show();
+
     }
 
     @Override

@@ -1,3 +1,10 @@
+/***
+ * ShareMedicalDataScreen activity has few choices as buttons
+ * It is for the medical data for a user e.g. Anthropometric data, medical test, doctor visits, etc
+ * Each button click opens a new screen
+ * @author Kinan & Luzeen
+ */
+
 package com.example.myapplication.MedicalCard;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,29 +31,10 @@ public class ShareMedicalDataScreen extends AppCompatActivity {
         Toast.makeText(ShareMedicalDataScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
     }
 
-    public void DescribeYourPastClick(View view){
-        Toast.makeText(ShareMedicalDataScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
-    }
-
-    public void DiscribeYourEnvironmentClick(View view){
-        Toast.makeText(ShareMedicalDataScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
-    }
-
-    public void UploadDataFromDevicesClick(View view){
-        Toast.makeText(ShareMedicalDataScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
-    }
-
-    public void UplaodPicturesClick(View view){
-        Toast.makeText(ShareMedicalDataScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
-    }
-
     public void MoreClick(View view){
         Toast.makeText(ShareMedicalDataScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
     }
 
-    public void SubmitClick(View view){
-        String note_content_string = ((EditText)findViewById(R.id.NoteContent)).getText().toString();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

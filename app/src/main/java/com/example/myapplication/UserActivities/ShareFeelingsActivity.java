@@ -33,6 +33,9 @@ public class ShareFeelingsActivity extends AppCompatActivity {
     /**
      * Variables Initialization
      */
+
+    //@TODO 'good' choices for Body Part & Feeling
+
     DatePickerDialog startedPicker, stoppedPicker;
     EditText startedFeelingDatePicker, stoppedFeelingDatePicker;
     Spinner bodyPartSpinner, feelingSpinner;

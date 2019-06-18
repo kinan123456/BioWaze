@@ -7,15 +7,11 @@
 
 package com.example.myapplication.AdminPanel;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,10 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ManageUsersActivity extends AppCompatActivity {
@@ -37,14 +36,12 @@ public class ManageUsersActivity extends AppCompatActivity {
      * Variables Initialization
      */
     private TableLayout usersTable;
-
+    private TextView adminNameLabel;
     /**
      * Set row header of the TableLayout
      */
     public void initTableHeaderRow() {
-        /***
-         * TODO Add User Button - adds to TableLayout and to Parse Cloud Database
-         */
+
         /*Button addUser = new Button(this);
         addUser.setText("Add New User");
         addUser.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +76,7 @@ public class ManageUsersActivity extends AppCompatActivity {
 
         TableRow tr_head = new TableRow(this);
         //tr_head.setId(10);
-        tr_head.setBackgroundColor(Color.GRAY);
+        tr_head.setBackgroundColor(Color.BLUE);
         tr_head.setLayoutParams(new TableRow.LayoutParams(
                 TableRow.LayoutParams.FILL_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT));
@@ -99,12 +96,6 @@ public class ManageUsersActivity extends AppCompatActivity {
         nameHeader.setPadding(5, 5, 5, 5); // set the padding (if required)
         tr_head.addView(nameHeader); // add the column to the table row here
 
-        TextView passwordHeader = new TextView(this);
-        //name.setId(21);// define id that must be unique
-        passwordHeader.setText("Password"); // set the text for the header
-        passwordHeader.setTextColor(Color.WHITE); // set the color
-        passwordHeader.setPadding(5, 5, 5, 5); // set the padding (if required)
-        tr_head.addView(passwordHeader); // add the column to the table row here
 
         usersTable.addView(tr_head, new TableLayout.LayoutParams(
                 TableRow.LayoutParams.FILL_PARENT,
@@ -137,6 +128,7 @@ public class ManageUsersActivity extends AppCompatActivity {
 
             // Create the table row
             final TableRow tr = new TableRow(this);
+
             if (count % 2 != 0)
                 tr.setBackgroundColor(Color.GRAY);
             else
@@ -158,21 +150,26 @@ public class ManageUsersActivity extends AppCompatActivity {
             name.setTextColor(Color.WHITE);
             tr.addView(name);
 
-            TextView password = new TextView(this);
-            password.setId(300 + count);
-            password.setText(obj.getString("password"));
-            password.setTextColor(Color.WHITE);
-            tr.addView(password);
-
             Button delete = new Button(this);
             delete.setText("Delete");
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    obj.deleteInBackground();
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("objectId", ParseUser.getCurrentUser().getObjectId());
+                    ParseCloud.callFunctionInBackground("deleteUserWithId", params, new FunctionCallback<Object>() {
+                        @Override
+                        public void done(Object object, ParseException e) {
+                            if (e == null) {
+                                //success
+                            } else {
+                                Toast.makeText(ManageUsersActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                     usersTable.removeView(tr);
                     /***
-                     * @TODO delete all relations for deleted user: e.g. delete rows of other tables that user made in past
+                     * @TODO delete user: delete all relations for deleted user: e.g. delete rows of other tables that user made in past
                      */
                 }
             });
@@ -188,6 +185,7 @@ public class ManageUsersActivity extends AppCompatActivity {
      */
     public void getDatabaseContent() {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(List<ParseUser> list, ParseException e) {
                 if (e == null) {
@@ -211,6 +209,9 @@ public class ManageUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_users);
         setTitle("Manage Users");
         usersTable = findViewById(R.id.manageUsersTable);
+        adminNameLabel = findViewById(R.id.adminLabelManageUsers);
+        adminNameLabel.setText("You're logged in as: "+ ParseUser.getCurrentUser().getUsername() + "\n" +
+                "All registered users are shown in the Table below.");
         getDatabaseContent();
 
     }

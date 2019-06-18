@@ -6,8 +6,14 @@
     android:layoutDirection="ltr"
     tools:context=".AdminPanel.ManageUsersActivity">
 
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/adminLabelManageUsers">
+
+    </TextView>
     <TableLayout
         android:stretchColumns="0,1"
+        android:layout_below="@+id/adminLabelManageUsers"
         android:id="@+id/manageUsersTable"
         android:layout_weight="1"
         android:layout_height="wrap_content"
