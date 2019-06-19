@@ -69,9 +69,14 @@ public class GraphHistoryView extends AppCompatActivity {
         String x1;
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<>(getDataPoints(listOfDates,listOfInts));
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        series = new LineGraphSeries<>();
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+        for(int i=0;i<size;i++) {
+            x= (Date) listOfDates.get(i);
+            y = (int)listOfInts.get(i);
 
+            series.appendData(new DataPoint(x,y),true ,size);
+        }
         graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             public String formatLabel(double value ,boolean isValueX){
@@ -83,22 +88,6 @@ public class GraphHistoryView extends AppCompatActivity {
                     return super.formatLabel(value,isValueX);
             }
         });
-    }
-
-    private DataPoint[] getDataPoints(List Dates, List Val) {
-        int size = Dates.size();
-        Date x;
-        int y;
-        DataPoint[] dp = new DataPoint[0];
-        for (int i=0; i<size; i++) {
-            x= (Date) Dates.get(i);
-            y=(Integer)Val.get(i);
-            dp = new DataPoint[]{
-              new DataPoint(x, y)
-            };
-        }
-
-        return dp;
     }
 
     @Override
