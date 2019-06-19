@@ -24,7 +24,7 @@ public class AnthropometricDataScreen extends AppCompatActivity {
 
         getVariables();
         ParseObject AnthropometricData = new ParseObject("AnthropometricData");
-        //AnthropometricData.put("parent", ParseObject.createWithoutData("User", ParseUser.getCurrentUser().getObjectId()));
+        AnthropometricData.put("parent", ParseObject.createWithoutData("User", ParseUser.getCurrentUser().getObjectId()));
         AnthropometricData.put("user", ParseUser.getCurrentUser().getUsername());
         AnthropometricData.put("weight", Integer.parseInt(weight.getText().toString()));
         AnthropometricData.put("height",Integer.parseInt(height.getText().toString()));
