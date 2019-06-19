@@ -73,7 +73,7 @@ public class GraphHistoryView extends AppCompatActivity {
             x= (Date) listOfDates.get(i);
             x1= sdf.format(x);
             y=(Integer)listOfInts.get(i);
-            series.appendData(new DataPoint(x,y),true,size);
+            series.appendData(new DataPoint(Double.parseDouble(x1),y),true,size);
         }
 
         graph.addSeries(series);
