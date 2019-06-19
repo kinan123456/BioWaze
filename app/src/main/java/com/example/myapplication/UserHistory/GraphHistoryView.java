@@ -4,6 +4,7 @@ package com.example.myapplication.UserHistory;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -66,18 +67,38 @@ public class GraphHistoryView extends AppCompatActivity {
         int y;
         Date x;
         String x1;
+
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-        for (int i=0; i<size; i++) {
-            x= (Date) listOfDates.get(i);
-            x1= sdf.format(x);
-            y=(Integer)listOfInts.get(i);
-            series.appendData(new DataPoint(Double.parseDouble(x1),y),true,size);
-        }
+        series = new LineGraphSeries<>(getDataPoints(listOfDates,listOfInts));
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 
         graph.addSeries(series);
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+            public String formatLabel(double value ,boolean isValueX){
 
+                if(isValueX){
+                    return sdf.format(new Date((long) value));
+                }
+                else
+                    return super.formatLabel(value,isValueX);
+            }
+        });
+    }
+
+    private DataPoint[] getDataPoints(List Dates, List Val) {
+        int size = Dates.size();
+        Date x;
+        int y;
+        DataPoint[] dp = new DataPoint[0];
+        for (int i=0; i<size; i++) {
+            x= (Date) Dates.get(i);
+            y=(Integer)Val.get(i);
+            dp = new DataPoint[]{
+              new DataPoint(x, y)
+            };
+        }
+
+        return dp;
     }
 
     @Override
