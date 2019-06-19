@@ -7,10 +7,12 @@
 
 package com.example.myapplication.UserHistory;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,11 +22,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 
+import java.util.Calendar;
+
 public class UserHistoryScreen extends AppCompatActivity {
     private RadioGroup categoryHistoryGroup, visualizeByGroup;
     private TextView visualizeHistoryBy;
     private Button pickDate, submitButtonHistory;
-
+    private int selectedStartYear, selectedStartMonth, selectedStartDay;
+    private int selectedEndYear, selectedEndMonth, selectedEndDay;
+    private DatePickerDialog datePickerFirstPickerDialog, datePickerSecondPickerDialog;
     /***
      * TODO: Time period : XML GUI , Handle selected dates when click Submit Button
      */
@@ -102,12 +108,58 @@ public class UserHistoryScreen extends AppCompatActivity {
             }
         });
 
+
     }
 
+    /***
+     * Date Range Picker: user chooses Start Date and End Date
+     * @param view
+     */
     public void datePickerOnClick(View view) {
+        Calendar calendar = Calendar.getInstance();
+        int yearFirstPicker = calendar.get(Calendar.YEAR);
+        int monthFirstPicker = calendar.get(Calendar.MONTH);
+        int dayOnMonthFirstPicker = calendar.get(Calendar.DAY_OF_MONTH);
+        Toast.makeText(UserHistoryScreen.this, "Please select Start Date", Toast.LENGTH_LONG).show();
 
+        datePickerFirstPickerDialog = new DatePickerDialog(UserHistoryScreen.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        selectedStartYear = year;
+                        selectedStartMonth = month;
+                        selectedStartMonth++;
+                        selectedStartDay = dayOfMonth;
+                        String firstDateString = selectedStartDay + "/" + selectedStartMonth + "/" + selectedStartYear;
+                        Toast.makeText(UserHistoryScreen.this, "First Date: " + firstDateString + "\nNow Select 'End Date'", Toast.LENGTH_LONG).show();
 
+                        getSecondDate();
+                    }
+                }, yearFirstPicker, monthFirstPicker, dayOnMonthFirstPicker);
+        datePickerFirstPickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerFirstPickerDialog.show();
 
+    }
+
+    public void getSecondDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(selectedStartYear,selectedStartMonth,selectedStartDay);
+        datePickerSecondPickerDialog = new DatePickerDialog(UserHistoryScreen.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        selectedEndYear = year;
+                        selectedEndMonth = month;
+                        selectedEndMonth++;
+                        selectedEndDay = dayOfMonth;
+                        String secondDateString = selectedEndDay + "/" + selectedEndMonth + "/" + selectedEndYear;
+                        Toast.makeText(UserHistoryScreen.this, "Second Date: " + secondDateString, Toast.LENGTH_LONG).show();
+
+                    }
+                }, selectedStartYear, selectedStartMonth, selectedStartDay);
+
+        datePickerSecondPickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        datePickerSecondPickerDialog.show();
     }
 
     /**

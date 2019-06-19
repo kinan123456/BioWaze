@@ -24,7 +24,9 @@ import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.HashMap;
@@ -155,7 +157,7 @@ public class ManageUsersActivity extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HashMap<String,String> params = new HashMap<>();
+                    /*HashMap<String,String> params = new HashMap<>();
                     params.put("objectId", ParseUser.getCurrentUser().getObjectId());
                     ParseCloud.callFunctionInBackground("deleteUserWithId", params, new FunctionCallback<Object>() {
                         @Override
@@ -166,7 +168,10 @@ public class ManageUsersActivity extends AppCompatActivity {
                                 Toast.makeText(ManageUsersActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
-                    });
+                    });*/
+                    ParseUser user = ParseUser.getCurrentUser();
+                    ParseRelation<ParseObject> relation = user.getRelation("FoodHistory");
+
                     usersTable.removeView(tr);
                     /***
                      * @TODO delete user: delete all relations for deleted user: e.g. delete rows of other tables that user made in past

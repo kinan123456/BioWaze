@@ -4,10 +4,12 @@
 
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.example.myapplication.AdminPanel.AdminHomeActivity;
 import com.parse.ParseUser;
+import com.parse.ui.login.ParseLoginBuilder;
 import com.parse.ui.login.ParseLoginDispatchActivity;
 
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
