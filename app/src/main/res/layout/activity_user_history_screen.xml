@@ -83,6 +83,22 @@
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
             <TextView
+                android:id="@+id/startDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="280dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/pickDateButton" />
+            android:textStyle="bold">
+        <TextView
+            android:id="@+id/endDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/pickDateButton"
+            android:layout_below="@id/startDateTextView"/>
+            <TextView
                 android:id="@+id/visualizeHistoryBy"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
@@ -136,6 +152,8 @@
                 android:layout_marginTop="50dp"
                 android:onClick="submitHistoryClick"
                 android:text="Submit" />
+
+
 
 
         </RelativeLayout>

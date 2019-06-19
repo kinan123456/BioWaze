@@ -45,6 +45,7 @@ public class TableHistoryView extends AppCompatActivity {
     private String receivedListName, lifestyleActivityName;
     private TableLayout tableLayout;
     private ProgressBar progressBar;
+    private Date startDate, endDate;
     /**
      * Query from Parse Dashboard to get all rows for specific user
      * This is his Lifestyle history
@@ -54,6 +55,16 @@ public class TableHistoryView extends AppCompatActivity {
         query = ParseQuery.getQuery(receivedListName);
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
         query.orderByAscending("createdAt");
+        //query food history table compared to 'createdAt' column
+        if (receivedListName.equals("FoodHistory")) {
+            query.whereGreaterThanOrEqualTo("createdAt", startDate);
+            query.whereLessThanOrEqualTo("createdAt",endDate);
+        }
+        //query feelings history table compared to 'startedDate' column not 'createdAt' column
+        if (receivedListName.equals("FeelingsHistory")) {
+            query.whereGreaterThanOrEqualTo("startedDate", startDate);
+            query.whereLessThanOrEqualTo("startedDate",endDate);
+        }
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
@@ -138,6 +149,7 @@ public class TableHistoryView extends AppCompatActivity {
                     case "startedDate": //Feelings History column
                     case "stoppedDate": //Feelings History column
                         Date startStopDate = obj.getDate(columnName);
+                        startStopDate.setDate(startStopDate.getDate()-1);
                         String toPut = formatter.format(startStopDate);
                         tcView.setText(toPut);
                         break;
@@ -260,7 +272,10 @@ public class TableHistoryView extends AppCompatActivity {
         setTitle("History Table View");
 
         Intent intent = getIntent();        // Get the transferred data from source activity.
-        receivedListName = intent.getStringExtra("listName");
+        receivedListName = intent.getStringExtra("listName");   //get category name: 'FoodHistory' / 'FeelingsHistory'
+        startDate = new Date(intent.getLongExtra("startDate",-1));  //get start date selected
+        endDate = new Date(intent.getLongExtra("endDate",-1));     //get end date selected
+
         getDataFromCloud();
     }
 }
