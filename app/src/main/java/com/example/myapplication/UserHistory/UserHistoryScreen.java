@@ -59,10 +59,8 @@ public class UserHistoryScreen extends AppCompatActivity {
             //if display by is Graph option
             if (selectedDisplayText.startsWith("Graph")) {
                 Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                intent.putExtra("listName", selectedCategoryText);
+                intent.putExtra("selectedAnthroData", "weight");
                 startActivity(intent);
-
-
             }  else{
                 //if display by is Table View option
                 Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);

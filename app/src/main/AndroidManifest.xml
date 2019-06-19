@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".AdminPanel.ManageUsersActivity" />
         <activity android:name=".AdminPanel.AdminHomeActivity" />
+        <activity android:name=".UserHistory.GraphHistoryView" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".MedicalCard.AnthropometricDataScreen" />
         <activity android:name=".DataAnalysis.DataAnalysisActivity" />

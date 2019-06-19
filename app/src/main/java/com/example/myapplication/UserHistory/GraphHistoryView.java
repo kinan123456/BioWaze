@@ -40,9 +40,10 @@ public class GraphHistoryView extends AppCompatActivity {
                     Date date;
                     for (ParseObject obj : list){
                         l = obj.getInt(receivedListName);
+                        Double d = Double.valueOf(l);
                         date = obj.getCreatedAt();
-                        mapList.put(date,l);
-                }
+                        mapList.put(date,d);
+                    }
                     displayDataOnGraph(mapList);   //display the data in graph view
 
                 } else {
@@ -78,7 +79,9 @@ public class GraphHistoryView extends AppCompatActivity {
         setTitle("History Graph View");
 
         Intent intent = getIntent();
-        receivedListName = intent.getStringExtra("listName");
+        receivedListName = intent.getStringExtra("selectedAnthroData");
+        Toast.makeText(GraphHistoryView.this, receivedListName, Toast.LENGTH_LONG).show();
+
         getDataFromCloud();
     }
 }
