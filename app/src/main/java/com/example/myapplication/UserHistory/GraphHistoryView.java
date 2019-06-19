@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.parse.FindCallback;
@@ -16,8 +17,11 @@ import com.parse.ParseUser;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,11 +65,13 @@ public class GraphHistoryView extends AppCompatActivity {
         int size = listOfInts.size();
         int y;
         Date x;
+        String x1;
         GraphView graph = (GraphView) findViewById(R.id.graph);
         series = new LineGraphSeries<>();
-
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         for (int i=0; i<size; i++) {
             x= (Date) listOfDates.get(i);
+            x1= sdf.format(x);
             y=(Integer)listOfInts.get(i);
             series.appendData(new DataPoint(x,y),true,size);
         }
