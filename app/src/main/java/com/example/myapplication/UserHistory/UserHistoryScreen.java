@@ -31,7 +31,7 @@ import java.util.TimeZone;
 
 public class UserHistoryScreen extends AppCompatActivity {
     private RadioButton weight ,height,blood,pulse,waistCircu;
-    private RadioGroup categoryHistoryGroup, visualizeByGroup;
+    private RadioGroup categoryHistoryGroup, visualizeByGroup ,anthroGroupChoices;
     private TextView visualizeHistoryBy, startDateTextView, endDateTextView;
     private Button pickDate, submitButtonHistory;
     private int selectedStartYear, selectedStartMonth, selectedStartDay;
@@ -83,9 +83,12 @@ public class UserHistoryScreen extends AppCompatActivity {
                 String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
                 //if display by is Graph option
                 if (selectedDisplayText.startsWith("Graph")) {
+                    int selectedColumn = anthroGroupChoices.getCheckedRadioButtonId();
+                    RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
+                    String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
 
                     Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                    intent.putExtra("selectedAnthroData",selectedCategoryText);
+                    intent.putExtra("selectedAnthroData",selectedColumnText);
                     intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
                     intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
                     startActivity(intent);
@@ -113,6 +116,7 @@ public class UserHistoryScreen extends AppCompatActivity {
         //Initialize variables
         categoryHistoryGroup = findViewById(R.id.categoryHistoryGroup);
         visualizeByGroup = findViewById(R.id.visualizeByGroup);
+        anthroGroupChoices = findViewById(R.id.anthroGroupChoices);
         pickDate = findViewById(R.id.pickDateButton);
         visualizeHistoryBy = findViewById(R.id.visualizeHistoryBy);
         submitButtonHistory =  findViewById(R.id.submitButtonHistory);

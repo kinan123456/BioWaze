@@ -105,7 +105,6 @@ public class GraphHistoryView extends AppCompatActivity {
         startDate = new Date(intent.getLongExtra("startDate",-1));
         endDate = new Date(intent.getLongExtra("endDate",-1));
         Toast.makeText(GraphHistoryView.this, receivedListName, Toast.LENGTH_LONG).show();
-
         getDataFromCloud();
     }
 }
