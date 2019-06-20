@@ -7,6 +7,9 @@
 
 package com.example.myapplication.AdminPanel;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.SampleDispatchActivity;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
@@ -39,6 +44,8 @@ public class ManageUsersActivity extends AppCompatActivity {
      */
     private TableLayout usersTable;
     private TextView adminNameLabel;
+    private static final int DIALOG_ALERT = 10;
+    private boolean deleteUserFlag = false;
     /**
      * Set row header of the TableLayout
      */
@@ -124,8 +131,8 @@ public class ManageUsersActivity extends AppCompatActivity {
      * Set all users on the TableLayout
      * @param list
      */
-    public void setTableRows(List<ParseUser> list) {
-        Integer count=0;
+    public void setTableRows(final List<ParseUser> list) {
+        int count = 0;
         for (final ParseUser obj : list) {
 
             // Create the table row
@@ -157,20 +164,22 @@ public class ManageUsersActivity extends AppCompatActivity {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*HashMap<String,String> params = new HashMap<>();
-                    params.put("objectId", ParseUser.getCurrentUser().getObjectId());
-                    ParseCloud.callFunctionInBackground("deleteUserWithId", params, new FunctionCallback<Object>() {
-                        @Override
-                        public void done(Object object, ParseException e) {
-                            if (e == null) {
-                                //success
-                            } else {
-                                Toast.makeText(ManageUsersActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    showDialog(DIALOG_ALERT);
+                    if (deleteUserFlag == true) {
+                        list.remove(obj);
+                        deleteUserFlag = false;
+
+                        obj.deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(getApplicationContext(), "User has been deleted",
+                                        Toast.LENGTH_LONG).show();
+                                // User clicked to log out.
+                                obj.logOut();
+
                             }
-                        }
-                    });*/
-                    ParseUser user = ParseUser.getCurrentUser();
-                    ParseRelation<ParseObject> relation = user.getRelation("FoodHistory");
+                        });
+                    }
 
                     usersTable.removeView(tr);
                     /***
@@ -185,6 +194,35 @@ public class ManageUsersActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DIALOG_ALERT:
+                // create out AlterDialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure you want to delete this user?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Confirm", new OkOnClickListener());
+                builder.setNegativeButton("Cancel",new CancelOnClickListener());
+                AlertDialog dialog = builder.create();
+                dialog.show();
+        }
+        return super.onCreateDialog(id);
+    }
+
+
+    private final class OkOnClickListener implements
+            DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int which) {
+            deleteUserFlag = true;
+        }
+    }
+    private final class CancelOnClickListener implements
+            DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int which) {
+
+        }
+    }
     /**
      * Query from Cloud Database to get all the registered users
      */

@@ -13,56 +13,56 @@
         android:layout_width="match_parent"
         android:scrollbarStyle="outsideInset"
         android:fillViewport="true">
-            <HorizontalScrollView
+        <HorizontalScrollView
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal|vertical"
+            android:layout_width="wrap_content">
+            <TableLayout
+                android:id="@+id/table_history_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="horizontal|vertical"
-                android:layout_width="wrap_content">
-                <TableLayout
-                    android:id="@+id/table_history_layout"
+                android:layout_marginTop="10dp">
+
+                <TableRow
+                    android:id="@+id/table_row_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:padding="5dp">
 
-                    <TableRow
-                        android:id="@+id/table_row_header"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/table_history_userColumn"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:fontFamily="serif"
+                        android:paddingRight="20dp"
+                        android:text="Name"
+                        android:textColor="#000" />
 
-                        <TextView
-                            android:id="@+id/table_history_userColumn"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="serif"
-                            android:paddingRight="20dp"
-                            android:text="Name"
-                            android:textColor="#000" />
+                    <TextView
+                        android:id="@+id/table_history_activityColumn"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:paddingRight="20dp"
+                        android:text="Lifestyle Activity"
+                        android:textColor="#000" />
 
-                        <TextView
-                            android:id="@+id/table_history_activityColumn"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="serif"
-                            android:paddingRight="20dp"
-                            android:text="Lifestyle Activity"
-                            android:textColor="#000" />
+                    <TextView
+                        android:id="@+id/table_history_createdAtColumn"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:text="When"
+                        android:paddingRight="20dp"
+                        android:textColor="#000" />
 
-                        <TextView
-                            android:id="@+id/table_history_createdAtColumn"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="serif"
-                            android:text="When"
-                            android:paddingRight="20dp"
-                            android:textColor="#000" />
+                </TableRow>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dip"
+                    android:background="#ff0000" />
 
-                    </TableRow>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="3dip"
-                        android:background="#ff0000" />
-
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        android:layout_marginTop="200dp"/>
-                </TableLayout>
-            </HorizontalScrollView>
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_marginTop="200dp"/>
+            </TableLayout>
+        </HorizontalScrollView>
     </ScrollView>
 </RelativeLayout>

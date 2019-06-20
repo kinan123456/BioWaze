@@ -30,10 +30,8 @@ public class StarterApplication extends Application {
 
         //ParseFacebookUtils.initialize(this);
 
-        //ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
-
         ParseACL.setDefaultACL(defaultACL, true);
 
     }

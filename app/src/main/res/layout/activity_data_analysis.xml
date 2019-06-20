@@ -9,8 +9,8 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
-        <RelativeLayout android:layout_height="match_parent"
-            android:layout_width="match_parent">
+        <RelativeLayout android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
             <TextView
                 android:id="@+id/dataAnalysisLabel"
                 android:layout_width="wrap_content"
@@ -34,6 +34,15 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
+
+            <ProgressBar
+                android:id="@+id/progressBarDataAnalysis"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="100dp"
+                android:layout_below="@+id/startAnalyzeButton" />
+
         </RelativeLayout>
 
     </ScrollView>

@@ -7,7 +7,9 @@
 package com.example.myapplication.DataAnalysis;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,11 +34,10 @@ public class DataAnalysisActivity extends AppCompatActivity {
     /***
      * Variables Deceleration
      */
-    private HashMap<String, HashSet<String>> DBFeeLingList;
-    private HashMap<String, HashSet<String>> DBFoodList;
-    private HashSet<String> allDates;
-    private HashSet<String> allFoodKinds;
-    private HashSet<String> allFeelingKinds;
+    private HashMap<String, HashSet<String>> DBFeeLingList, DBFoodList;
+    private HashSet<String> allDates, allFoodKinds, allFeelingKinds;
+    ProgressBar progressBar;
+
 
     /***
      *  Method to analyze lifestyle input data
@@ -67,9 +68,21 @@ public class DataAnalysisActivity extends AppCompatActivity {
                 it.remove();
             }
         }
+        Handler handler = new Handler();
 
-        Toast.makeText(DataAnalysisActivity.this, "foodList = " + allFoodKinds.size()
-                + "\nfeelingsList = " + allFeelingKinds.size(), Toast.LENGTH_LONG).show();
+        progressBar.setVisibility(View.VISIBLE);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(DataAnalysisActivity.this, "foodList = " + allFoodKinds.size()
+                        + "\nfeelingsList = " + allFeelingKinds.size(), Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        },2000);
+
+
+
     }
 
     /***
@@ -83,7 +96,10 @@ public class DataAnalysisActivity extends AppCompatActivity {
         query = ParseQuery.getQuery(tableName); //query from table FoodHistory or FeelingsHistory
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
         query.orderByAscending("createdAt");
+
         query.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
 
@@ -141,6 +157,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
     }
 
+
     /***
      * Method to initialize all variables that are in this class
      */
@@ -161,8 +178,15 @@ public class DataAnalysisActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_data_analysis);
+        progressBar = findViewById(R.id.progressBarDataAnalysis);
+        progressBar.setVisibility(View.GONE);
         setTitle("Data Analysis");
         initializeVariables();
     }
 
 }
+
+
+
+
+
