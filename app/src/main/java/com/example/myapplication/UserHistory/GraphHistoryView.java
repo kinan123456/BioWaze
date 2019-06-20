@@ -35,12 +35,15 @@ public class GraphHistoryView extends AppCompatActivity {
     private ArrayList<Date> tempDatesList = new ArrayList<>();
     private ArrayList<Integer> tempIntList = new ArrayList<>();
     private LineGraphSeries<DataPoint> series;
+    private Date startDate, endDate;
 
     public void getDataFromCloud() {
         ParseQuery<ParseObject> query;
         query = ParseQuery.getQuery("AnthropometricData");
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
         query.orderByAscending("createdAt");
+        query.whereGreaterThanOrEqualTo("createdAt", startDate);
+        query.whereLessThanOrEqualTo("createdAt",endDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
@@ -99,6 +102,8 @@ public class GraphHistoryView extends AppCompatActivity {
 
         Intent intent = getIntent();
         receivedListName = intent.getStringExtra("selectedAnthroData");
+        startDate = new Date(intent.getLongExtra("startDate",-1));
+        endDate = new Date(intent.getLongExtra("endDate",-1));
         Toast.makeText(GraphHistoryView.this, receivedListName, Toast.LENGTH_LONG).show();
 
         getDataFromCloud();

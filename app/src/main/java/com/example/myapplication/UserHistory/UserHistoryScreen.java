@@ -83,8 +83,11 @@ public class UserHistoryScreen extends AppCompatActivity {
                 String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
                 //if display by is Graph option
                 if (selectedDisplayText.startsWith("Graph")) {
+
                     Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                    intent.putExtra("selectedAnthroData", "weight");
+                    intent.putExtra("selectedAnthroData",selectedCategoryText);
+                    intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
+                    intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
                     startActivity(intent);
                 }  else{
                     //if display by is Table View option
