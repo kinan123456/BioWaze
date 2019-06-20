@@ -68,25 +68,29 @@ public class UserHistoryScreen extends AppCompatActivity {
      */
     public void checkDisplayChoice(String selectedCategoryText) {
         int selectedDisplay = visualizeByGroup.getCheckedRadioButtonId();
-
-        if (selectedDisplay == -1) {
-            Toast.makeText(UserHistoryScreen.this, "One or more fields are missing. Fill in everything.", Toast.LENGTH_LONG).show();
+        if (startDateTextView.getText().equals("") || endDateTextView.getText().equals("")) {
+            Toast.makeText(UserHistoryScreen.this, "Please pick Date.", Toast.LENGTH_LONG).show();
         } else {
+            if (selectedDisplay == -1) {
+                Toast.makeText(UserHistoryScreen.this, "One or more fields are missing. Fill in everything.", Toast.LENGTH_LONG).show();
+            } else {
 
-            RadioButton selectedDisplayRadioButton = findViewById(selectedDisplay);
-            String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
-            //if display by is Graph option
-            if (selectedDisplayText.startsWith("Graph")) {
-                Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                intent.putExtra("selectedAnthroData", "weight");
-                startActivity(intent);
-            }  else{
-                //if display by is Table View option
-                Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
-                intent.putExtra("listName", selectedCategoryText);
-                startActivity(intent);
+                RadioButton selectedDisplayRadioButton = findViewById(selectedDisplay);
+                String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
+                //if display by is Graph option
+                if (selectedDisplayText.startsWith("Graph")) {
+                    Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
+                    intent.putExtra("selectedAnthroData", "weight");
+                    startActivity(intent);
+                }  else{
+                    //if display by is Table View option
+                    Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
+                    intent.putExtra("listName", selectedCategoryText);
+                    startActivity(intent);
+                }
             }
         }
+
     }
     /***
      * Method to initialize the Variables of this Activity
@@ -160,7 +164,7 @@ public class UserHistoryScreen extends AppCompatActivity {
                         selectedStartDay = dayOfMonth;
                         String firstDateString = selectedStartDay + "/" + selectedStartMonth + "/" + selectedStartYear;
                         Toast.makeText(UserHistoryScreen.this, "First Date: " + firstDateString + "\nNow Select 'End Date'", Toast.LENGTH_LONG).show();
-                        startDateTextView.setText(firstDateString);
+                        startDateTextView.setText("Start Date: " +firstDateString);
                         getSecondDate();
                     }
                 }, yearFirstPicker, monthFirstPicker, dayOnMonthFirstPicker);
@@ -182,7 +186,7 @@ public class UserHistoryScreen extends AppCompatActivity {
                         selectedEndDay = dayOfMonth;
                         String secondDateString = selectedEndDay + "/" + selectedEndMonth + "/" + selectedEndYear;
                         Toast.makeText(UserHistoryScreen.this, "Second Date: " + secondDateString, Toast.LENGTH_LONG).show();
-                        endDateTextView.setText(secondDateString);
+                        endDateTextView.setText("Second Date: " + secondDateString);
 
                     }
                 }, selectedStartYear, selectedStartMonth, selectedStartDay);
