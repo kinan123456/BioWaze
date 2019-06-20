@@ -46,15 +46,15 @@ private RadioButton weight ,height,blood,pulse,waistCircu;
     public void AnthropoButtonClicked(View view) {
 
         weight = findViewById(R.id.Weight);
-        weight.getVisibility();
+        weight.setVisibility(View.VISIBLE);
         height = findViewById(R.id.Height);
-        height.getVisibility();
+        height.setVisibility(View.VISIBLE);
         blood = findViewById(R.id.BloodPres);
-        blood.getVisibility();
+        blood.setVisibility(View.VISIBLE);
         waistCircu = findViewById(R.id.WaistCircumference);
-        waistCircu.getVisibility();
+        waistCircu.setVisibility(View.VISIBLE);
         pulse = findViewById(R.id.Pulse);
-        pulse.getVisibility();
+        pulse.setVisibility(View.VISIBLE);
     }
 
 
