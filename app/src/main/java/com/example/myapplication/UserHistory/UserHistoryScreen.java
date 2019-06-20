@@ -26,9 +26,9 @@ import java.util.Calendar;
 
 public class UserHistoryScreen extends AppCompatActivity {
 
-private RadioButton weight ,height,blood,pulse,waistCircu;
-    private RadioGroup categoryHistoryGroup, visualizeByGroup;
-    private TextView visualizeHistoryBy;
+    private RadioButton weight ,height,blood,pulse,waistCircu;
+    private RadioGroup categoryHistoryGroup, visualizeByGroup, anthroGroupChoices;
+    private TextView visualizeHistoryBy, startDateTextView, endDateTextView;
     private Button pickDate, submitButtonHistory;
     private int selectedStartYear, selectedStartMonth, selectedStartDay;
     private int selectedEndYear, selectedEndMonth, selectedEndDay;
@@ -45,15 +45,10 @@ private RadioButton weight ,height,blood,pulse,waistCircu;
         //clicked anthropometric data --> show weight , height , .....
     public void AnthropoButtonClicked(View view) {
 
-        weight = findViewById(R.id.Weight);
         weight.setVisibility(View.VISIBLE);
-        height = findViewById(R.id.Height);
         height.setVisibility(View.VISIBLE);
-        blood = findViewById(R.id.BloodPres);
         blood.setVisibility(View.VISIBLE);
-        waistCircu = findViewById(R.id.WaistCircumference);
         waistCircu.setVisibility(View.VISIBLE);
-        pulse = findViewById(R.id.Pulse);
         pulse.setVisibility(View.VISIBLE);
     }
 
@@ -103,15 +98,25 @@ private RadioButton weight ,height,blood,pulse,waistCircu;
         //Initialize variables
         categoryHistoryGroup = findViewById(R.id.categoryHistoryGroup);
         visualizeByGroup = findViewById(R.id.visualizeByGroup);
+        anthroGroupChoices = findViewById(R.id.anthroGroupChoices);
+        startDateTextView = findViewById(R.id.startDateTextView);
+        endDateTextView = findViewById(R.id.endDateTextView);
         pickDate = findViewById(R.id.pickDateButton);
         visualizeHistoryBy = findViewById(R.id.visualizeHistoryBy);
         submitButtonHistory =  findViewById(R.id.submitButtonHistory);
+        weight = findViewById(R.id.Weight);
+        height = findViewById(R.id.Height);
+        blood = findViewById(R.id.BloodPres);
+        waistCircu = findViewById(R.id.WaistCircumference);
+        pulse = findViewById(R.id.Pulse);
 
         //hide few elements at first
         pickDate.setVisibility(View.GONE);
         visualizeHistoryBy.setVisibility(View.GONE);
         visualizeByGroup.setVisibility(View.GONE);
         submitButtonHistory.setVisibility(View.GONE);
+        startDateTextView.setVisibility(View.GONE);
+        endDateTextView.setVisibility(View.GONE);
 
         //set listeners for Radio Groups
         categoryHistoryGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -123,6 +128,11 @@ private RadioButton weight ,height,blood,pulse,waistCircu;
                 visualizeHistoryBy.setVisibility(View.VISIBLE);
                 visualizeByGroup.setVisibility(View.VISIBLE);
                 submitButtonHistory.setVisibility(View.VISIBLE);
+                weight.setVisibility(View.GONE);
+                height.setVisibility(View.GONE);
+                blood.setVisibility(View.GONE);
+                waistCircu.setVisibility(View.GONE);
+                pulse.setVisibility(View.GONE);
             }
         });
 
@@ -150,7 +160,7 @@ private RadioButton weight ,height,blood,pulse,waistCircu;
                         selectedStartDay = dayOfMonth;
                         String firstDateString = selectedStartDay + "/" + selectedStartMonth + "/" + selectedStartYear;
                         Toast.makeText(UserHistoryScreen.this, "First Date: " + firstDateString + "\nNow Select 'End Date'", Toast.LENGTH_LONG).show();
-
+                        startDateTextView.setText(firstDateString);
                         getSecondDate();
                     }
                 }, yearFirstPicker, monthFirstPicker, dayOnMonthFirstPicker);
@@ -172,6 +182,7 @@ private RadioButton weight ,height,blood,pulse,waistCircu;
                         selectedEndDay = dayOfMonth;
                         String secondDateString = selectedEndDay + "/" + selectedEndMonth + "/" + selectedEndYear;
                         Toast.makeText(UserHistoryScreen.this, "Second Date: " + secondDateString, Toast.LENGTH_LONG).show();
+                        endDateTextView.setText(secondDateString);
 
                     }
                 }, selectedStartYear, selectedStartMonth, selectedStartDay);

@@ -78,56 +78,66 @@
                     android:text="AnthropometricData History"
                     android:textSize="20dp"></RadioButton>
 
-                <RadioButton
-                    android:id="@+id/Weight"
+                <RadioGroup
+                    android:id="@+id/anthroGroupChoices"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginLeft="40dp"
-                    android:overScrollMode="always"
-                    android:text="Weight"
-                    android:textSize="20dp"
-                    android:visibility="invisible"></RadioButton>
+                    android:layout_below="@id/secondLabelHistory"
+                    android:layout_marginTop="0dp"
+                    android:orientation="vertical"
+                    android:padding="6dp">
+                    <RadioButton
+                        android:id="@+id/Weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginLeft="40dp"
+                        android:overScrollMode="always"
+                        android:text="Weight"
+                        android:textSize="20dp"
+                        android:visibility="invisible"></RadioButton>
 
-                <RadioButton
-                    android:id="@+id/Height"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginLeft="40dp"
-                    android:text="Height"
-                    android:textSize="20dp"
-                    android:visibility="invisible"></RadioButton>
+                    <RadioButton
+                        android:id="@+id/Height"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginLeft="40dp"
+                        android:text="Height"
+                        android:textSize="20dp"
+                        android:visibility="invisible"></RadioButton>
 
-                <RadioButton
-                    android:id="@+id/BloodPres"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginLeft="40dp"
-                    android:text="Blood Pressure"
-                    android:textSize="20dp"
-                    android:visibility="invisible"></RadioButton>
+                    <RadioButton
+                        android:id="@+id/BloodPres"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginLeft="40dp"
+                        android:text="Blood Pressure"
+                        android:textSize="20dp"
+                        android:visibility="invisible"></RadioButton>
 
-                <RadioButton
-                    android:id="@+id/WaistCircumference"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginLeft="40dp"
-                    android:text="WaistCircumference"
-                    android:textSize="20dp"
-                    android:visibility="invisible"></RadioButton>
+                    <RadioButton
+                        android:id="@+id/WaistCircumference"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginLeft="40dp"
+                        android:text="WaistCircumference"
+                        android:textSize="20dp"
+                        android:visibility="invisible"></RadioButton>
 
-                <RadioButton
-                    android:id="@+id/Pulse"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginLeft="40dp"
-                    android:text="Pulse"
-                    android:textSize="20dp"
-                    android:visibility="invisible"></RadioButton>
+                    <RadioButton
+                        android:id="@+id/Pulse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginLeft="40dp"
+                        android:text="Pulse"
+                        android:textSize="20dp"
+                        android:visibility="invisible"></RadioButton>
+                </RadioGroup>
+
 
             </RadioGroup>
 
@@ -147,15 +157,16 @@
                 android:id="@+id/startDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="280dp"
+                android:layout_marginTop="450dp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/pickDateButton" />
             android:textStyle="bold">
         <TextView
             android:id="@+id/endDateTextView"
             android:layout_width="wrap_content"
+
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/pickDateButton"
             android:layout_below="@id/startDateTextView"/>
