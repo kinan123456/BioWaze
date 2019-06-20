@@ -1,19 +1,18 @@
 package com.example.myapplication.MedicalCard;
 
-import androidx.appcompat.app.AppCompatActivity;
-import com.example.myapplication.R;
-import com.example.myapplication.UserActivities.ShareFeelingsActivity;
-import com.example.myapplication.UserActivities.UserActivitiesScreen;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.R;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class AnthropometricDataScreen extends AppCompatActivity {
 

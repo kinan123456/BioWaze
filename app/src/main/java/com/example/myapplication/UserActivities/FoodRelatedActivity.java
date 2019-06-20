@@ -82,16 +82,16 @@ public class FoodRelatedActivity extends AppCompatActivity {
             if (this.byteArray != null) {
                 ParseFile file = new ParseFile("image.png", this.byteArray);
                 file.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
+                                          @Override
+                                          public void done(ParseException e) {
 
-                            }
-                        }, new ProgressCallback() {
-                            @Override
-                            public void done(Integer percentDone) {
-                                progressDialog.setProgress(percentDone);
-                            }
-                        }
+                                          }
+                                      }, new ProgressCallback() {
+                                          @Override
+                                          public void done(Integer percentDone) {
+                                              progressDialog.setProgress(percentDone);
+                                          }
+                                      }
                 );
                 foodHistory.put("image", file);
             }

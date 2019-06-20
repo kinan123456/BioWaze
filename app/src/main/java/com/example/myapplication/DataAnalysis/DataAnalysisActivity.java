@@ -46,40 +46,52 @@ public class DataAnalysisActivity extends AppCompatActivity {
      * @param view
      */
     public void startAnalyzeClick(View view) {
-        Iterator<Map.Entry<String, HashSet<String>>> it;
         getDataToAnalyze("FeelingsHistory", "feeling");
         allDates.clear();
-        it = DBFeeLingList.entrySet().iterator();   //to remove empty values from map
-        while (it.hasNext()) {
-            Map.Entry<String, HashSet<String>> e = it.next();
-            String key = e.getKey();
-            HashSet<String> value = e.getValue();
-            if (value.isEmpty()) {
-                it.remove();
-            }
-        }
         getDataToAnalyze("FoodHistory", "whatEat");
-        it = DBFoodList.entrySet().iterator();  //to remove empty values from map
-        while (it.hasNext()) {
-            Map.Entry<String, HashSet<String>> e = it.next();
-            String key = e.getKey();
-            HashSet<String> value = e.getValue();
-            if (value.isEmpty()) {
-                it.remove();
-            }
-        }
+
+
         Handler handler = new Handler();
-
         progressBar.setVisibility(View.VISIBLE);
-
         handler.postDelayed(new Runnable() {
             @Override
+
             public void run() {
-                Toast.makeText(DataAnalysisActivity.this, "foodList = " + allFoodKinds.size()
-                        + "\nfeelingsList = " + allFeelingKinds.size(), Toast.LENGTH_LONG).show();
+                String s = "";
+                Iterator<Map.Entry<String, HashSet<String>>> it;
+
+                it = DBFeeLingList.entrySet().iterator();   //to remove empty values from map
+                while (it.hasNext()) {
+                    Map.Entry<String, HashSet<String>> e = it.next();
+                    HashSet<String> value = e.getValue();
+                    if (value.isEmpty() || e.getKey().isEmpty()) {
+                        it.remove();
+                    }
+                }
+
+                it = DBFoodList.entrySet().iterator();  //to remove empty values from map
+                while (it.hasNext()) {
+                    Map.Entry<String, HashSet<String>> e = it.next();
+                    HashSet<String> value = e.getValue();
+                    if (value.isEmpty() || e.getKey().isEmpty()) {
+                        it.remove();
+                    }
+                }
+                s += "Food:\n";
+                for (Map.Entry e : DBFoodList.entrySet()) {
+                    s += "key: " + e.getKey() + " value: " + e.getValue() + "\n";
+                }
+
+
+                s += "Feelings:\n";
+                for (Map.Entry e : DBFeeLingList.entrySet()) {
+                    s += "key: " + e.getKey() + " value: " + e.getValue() + "\n";
+                }
+
+                Toast.makeText(DataAnalysisActivity.this, s + "\n feelings size = " + DBFeeLingList.size(), Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
             }
-        },2000);
+        },4000);
 
 
 
@@ -95,7 +107,10 @@ public class DataAnalysisActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query;
         query = ParseQuery.getQuery(tableName); //query from table FoodHistory or FeelingsHistory
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
-        query.orderByAscending("createdAt");
+        if (colName.equals("whatEat"))
+            query.orderByAscending("createdAt");
+        else
+            query.orderByAscending("startedDate");
 
         query.findInBackground(new FindCallback<ParseObject>() {
 
@@ -105,12 +120,14 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
                     //save all dates in a list
                     Date date;
+
                     for (ParseObject obj : list) {
-                        if (colName.equals("whatEat"))  //foodHistory
-                        {
+                        if (colName.equals("whatEat")) { //foodHistory table
                             date = obj.getCreatedAt();
-                        } else {
+
+                        } else {    //feelingsHistory table
                             date = obj.getDate("startedDate");
+                            date.setDate(date.getDate()-1);
                         }
 
                         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -129,6 +146,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
                                 d = obj.getCreatedAt();
                             } else {
                                 d = obj.getDate("startedDate");
+                                //d.setDate(d.getDate()-1);
                             }
                             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                             String dd = formatter.format(d);
