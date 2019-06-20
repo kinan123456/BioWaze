@@ -52,7 +52,6 @@ public class DataAnalysisActivity extends AppCompatActivity {
         allDates.clear();
         getDataToAnalyze("FoodHistory", "whatEat");
 
-
         Handler handler = new Handler();
         progressBar.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
