@@ -78,11 +78,12 @@ public class GraphHistoryView extends AppCompatActivity {
             series.appendData(new DataPoint(x,y),true ,size);
         }
         graph.addSeries(series);
+        // display Date format on x axis
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             public String formatLabel(double value ,boolean isValueX){
 
                 if(isValueX){
-                    return sdf.format(new Date((long) value));
+                    return sdf.format(new Date((long) value ));
                 }
                 else
                     return super.formatLabel(value,isValueX);
