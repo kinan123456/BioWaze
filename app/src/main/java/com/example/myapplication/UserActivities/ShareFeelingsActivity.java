@@ -34,9 +34,11 @@ public class ShareFeelingsActivity extends AppCompatActivity {
      * Variables Initialization
      */
 
-    DatePickerDialog startedPicker, stoppedPicker;
-    EditText startedFeelingDatePicker, stoppedFeelingDatePicker;
-    Spinner bodyPartSpinner, feelingSpinner;
+    private DatePickerDialog startedPicker, stoppedPicker;
+    private EditText startedFeelingDatePicker, stoppedFeelingDatePicker;
+    private Spinner bodyPartSpinner, feelingSpinner;
+    private boolean showSecondDate = false;
+    private int dayStart, monthStart, yearStart;
 
     /**
      * Share Feelings button has been pressed - open new screen
@@ -128,10 +130,17 @@ public class ShareFeelingsActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                dayStart = dayOfMonth;
+                                monthStart = monthOfYear;
+                                yearStart = year;
                                 startedFeelingDatePicker.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
                         }, year, month, day);
+                startedPicker.getDatePicker().setMaxDate(System.currentTimeMillis());
+                showSecondDate = true;
                 startedPicker.show();
+
+
             }
         });
 
@@ -142,19 +151,27 @@ public class ShareFeelingsActivity extends AppCompatActivity {
         stoppedFeelingDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                stoppedPicker = new DatePickerDialog(ShareFeelingsActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                stoppedFeelingDatePicker.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            }
-                        }, year, month, day);
-                stoppedPicker.show();
+                if (showSecondDate) {
+                    final Calendar cldr = Calendar.getInstance();
+                    Calendar minCalendar = Calendar.getInstance();
+                    minCalendar.set(yearStart,monthStart,dayStart);
+                    int day = cldr.get(Calendar.DAY_OF_MONTH);
+                    int month = cldr.get(Calendar.MONTH);
+                    int year = cldr.get(Calendar.YEAR);
+                    // date picker dialog
+                    stoppedPicker = new DatePickerDialog(ShareFeelingsActivity.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    stoppedFeelingDatePicker.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                }
+                            }, year, month, day);
+                    stoppedPicker.getDatePicker().setMinDate(minCalendar.getTimeInMillis());
+                    stoppedPicker.show();
+                } else {
+
+                }
+
             }
         });
     }

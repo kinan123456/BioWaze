@@ -36,7 +36,9 @@ public class DataAnalysisActivity extends AppCompatActivity {
      */
     private HashMap<String, HashSet<String>> DBFeeLingList, DBFoodList;
     private HashSet<String> allDates, allFoodKinds, allFeelingKinds;
-    ProgressBar progressBar;
+    private int N1, N2, N3, N4;
+    private int matrixParams [][];
+    private ProgressBar progressBar;
 
 
     /***
@@ -77,24 +79,62 @@ public class DataAnalysisActivity extends AppCompatActivity {
                         it.remove();
                     }
                 }
-                s += "Food:\n";
-                for (Map.Entry e : DBFoodList.entrySet()) {
-                    s += "key: " + e.getKey() + " value: " + e.getValue() + "\n";
-                }
 
+                initializeParametersForChiSquare();
 
-                s += "Feelings:\n";
-                for (Map.Entry e : DBFeeLingList.entrySet()) {
-                    s += "key: " + e.getKey() + " value: " + e.getValue() + "\n";
-                }
-
-                Toast.makeText(DataAnalysisActivity.this, s + "\n feelings size = " + DBFeeLingList.size(), Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
             }
         },4000);
 
 
 
+    }
+
+    /***
+     * Initialize 4 parameters for the Hypothesis method that is in server
+     */
+    private void initializeParametersForChiSquare() {
+        String s = "";
+        int count = 0;
+        HashSet<String> foodHashSetNeeded, feelingsHashSetNeeded;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        for (Map.Entry<String,HashSet<String>> entryFood : DBFoodList.entrySet()) {
+            String foodEattenDateString = (String) entryFood.getKey();
+
+            Date foodEattenDate = null;
+            try {
+                foodEattenDate = simpleDateFormat.parse(foodEattenDateString);
+            } catch (java.text.ParseException e) {
+                Toast.makeText(DataAnalysisActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            for (Map.Entry<String,HashSet<String>> entryFeelings : DBFeeLingList.entrySet()) {
+                String feelingsSharedDateString = (String) entryFeelings.getKey();
+                Date feelingsSharedDate = null;
+                try {
+                    feelingsSharedDate = simpleDateFormat.parse(feelingsSharedDateString);
+                } catch (java.text.ParseException e) {
+                    Toast.makeText(DataAnalysisActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                if (feelingsSharedDate.after(foodEattenDate)) {
+                    //we are willing to compare dates that: feeling date is after maximum 2 days than eatten date
+                    long daysDiff = (feelingsSharedDate.getTime() - foodEattenDate.getTime()) / (24*60*60*1000);
+
+                    if (daysDiff <= 2) {
+                        //now we have to scan the values of these two keys and get 2 variables which we'll send to server to check
+                        //if they're independent
+
+                        for (String foodSetString : entryFood.getValue()) {
+                            for (String feelingsSetString : entryFeelings.getValue()) {
+                                s += "First: " + foodSetString + ", Second: " + feelingsSetString + "\n";
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        Toast.makeText(DataAnalysisActivity.this,  "Text=\n" + s, Toast.LENGTH_LONG).show();
     }
 
     /***
@@ -185,6 +225,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
         allDates = new HashSet<>();
         allFeelingKinds = new HashSet<>();
         allFoodKinds = new HashSet<>();
+        matrixParams = new int [2][2];
     }
 
     /***
