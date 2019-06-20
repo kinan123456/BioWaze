@@ -236,7 +236,10 @@ public class ManageUsersActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), AdminHomeActivity.class));
+    }
     /**
      * @param savedInstanceState
      */

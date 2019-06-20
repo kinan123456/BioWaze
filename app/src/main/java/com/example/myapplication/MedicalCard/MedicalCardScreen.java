@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.DataAnalysis.DataAnalysisActivity;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.UserHistory.UserHistoryScreen;
 
@@ -56,6 +57,10 @@ public class MedicalCardScreen extends AppCompatActivity {
     public void shareCardClick(View view) {
         Toast.makeText(MedicalCardScreen.this, "Not available yet", Toast.LENGTH_LONG).show();
 
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

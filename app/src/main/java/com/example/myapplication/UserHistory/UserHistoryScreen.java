@@ -20,29 +20,28 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class UserHistoryScreen extends AppCompatActivity {
-
     private RadioButton weight ,height,blood,pulse,waistCircu;
-    private RadioGroup categoryHistoryGroup, visualizeByGroup, anthroGroupChoices;
+    private RadioGroup categoryHistoryGroup, visualizeByGroup;
     private TextView visualizeHistoryBy, startDateTextView, endDateTextView;
     private Button pickDate, submitButtonHistory;
     private int selectedStartYear, selectedStartMonth, selectedStartDay;
+    private String firstDateString, secondDateString;
     private int selectedEndYear, selectedEndMonth, selectedEndDay;
+    private Calendar startCalendarDate, endCalendarDate;
     private DatePickerDialog datePickerFirstPickerDialog, datePickerSecondPickerDialog;
-    /***
-     * TODO: Time period : XML GUI , Handle selected dates when click Submit Button
-     */
-    /***
-     * Submit button has been pressed - handle the given info
-     * Get the category selected: 'Feelings history' , 'Food history' , etc...
-     * then check the display choice: graph or table view
-     * @param view
-     */
-        //clicked anthropometric data --> show weight , height , .....
+
+
+    //clicked anthropometric data --> show weight , height , .....
     public void AnthropoButtonClicked(View view) {
 
         weight.setVisibility(View.VISIBLE);
@@ -51,8 +50,12 @@ public class UserHistoryScreen extends AppCompatActivity {
         waistCircu.setVisibility(View.VISIBLE);
         pulse.setVisibility(View.VISIBLE);
     }
-
-
+    /***
+     * Submit button has been pressed - handle the given info
+     * Get the category selected: 'Feelings history' , 'Food history' , etc...
+     * then check the display choice: graph or table view
+     * @param view
+     */
     public void submitHistoryClick(View view) {
         int selectedCategory = categoryHistoryGroup.getCheckedRadioButtonId();
         RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedCategory);
@@ -69,10 +72,11 @@ public class UserHistoryScreen extends AppCompatActivity {
     public void checkDisplayChoice(String selectedCategoryText) {
         int selectedDisplay = visualizeByGroup.getCheckedRadioButtonId();
         if (startDateTextView.getText().equals("") || endDateTextView.getText().equals("")) {
-            Toast.makeText(UserHistoryScreen.this, "Please pick Date.", Toast.LENGTH_LONG).show();
+            Toast.makeText(UserHistoryScreen.this, "You have to pick a Date.", Toast.LENGTH_LONG).show();
+
         } else {
             if (selectedDisplay == -1) {
-                Toast.makeText(UserHistoryScreen.this, "One or more fields are missing. Fill in everything.", Toast.LENGTH_LONG).show();
+                Toast.makeText(UserHistoryScreen.this, "Please Choose Graph View or Table View then try again.", Toast.LENGTH_LONG).show();
             } else {
 
                 RadioButton selectedDisplayRadioButton = findViewById(selectedDisplay);
@@ -86,6 +90,10 @@ public class UserHistoryScreen extends AppCompatActivity {
                     //if display by is Table View option
                     Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
                     intent.putExtra("listName", selectedCategoryText);
+                    intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
+                    intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
+
+
                     startActivity(intent);
                 }
             }
@@ -102,17 +110,17 @@ public class UserHistoryScreen extends AppCompatActivity {
         //Initialize variables
         categoryHistoryGroup = findViewById(R.id.categoryHistoryGroup);
         visualizeByGroup = findViewById(R.id.visualizeByGroup);
-        anthroGroupChoices = findViewById(R.id.anthroGroupChoices);
-        startDateTextView = findViewById(R.id.startDateTextView);
-        endDateTextView = findViewById(R.id.endDateTextView);
         pickDate = findViewById(R.id.pickDateButton);
         visualizeHistoryBy = findViewById(R.id.visualizeHistoryBy);
         submitButtonHistory =  findViewById(R.id.submitButtonHistory);
+        startDateTextView = findViewById(R.id.startDateTextView);
+        endDateTextView = findViewById(R.id.endDateTextView);
         weight = findViewById(R.id.Weight);
         height = findViewById(R.id.Height);
         blood = findViewById(R.id.BloodPres);
         waistCircu = findViewById(R.id.WaistCircumference);
         pulse = findViewById(R.id.Pulse);
+
 
         //hide few elements at first
         pickDate.setVisibility(View.GONE);
@@ -121,6 +129,7 @@ public class UserHistoryScreen extends AppCompatActivity {
         submitButtonHistory.setVisibility(View.GONE);
         startDateTextView.setVisibility(View.GONE);
         endDateTextView.setVisibility(View.GONE);
+
 
         //set listeners for Radio Groups
         categoryHistoryGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -159,18 +168,33 @@ public class UserHistoryScreen extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         selectedStartYear = year;
-                        selectedStartMonth = month;
-                        selectedStartMonth++;
+                        selectedStartMonth = month + 1;
                         selectedStartDay = dayOfMonth;
-                        String firstDateString = selectedStartDay + "/" + selectedStartMonth + "/" + selectedStartYear;
+
+                        firstDateString = selectedStartDay + "/" + selectedStartMonth + "/" + selectedStartYear;
+
+                        //set start calendar date which will be sent to the next activity
+                        startCalendarDate = Calendar.getInstance();
+                        selectedStartMonth--;
+                        startCalendarDate.set(selectedStartYear,selectedStartMonth,selectedStartDay);
+
                         Toast.makeText(UserHistoryScreen.this, "First Date: " + firstDateString + "\nNow Select 'End Date'", Toast.LENGTH_LONG).show();
-                        startDateTextView.setText("Start Date: " +firstDateString);
+
+                        startDateTextView.setVisibility(View.VISIBLE);
+
+                        startDateTextView.setText("Start Date = " + firstDateString);
                         getSecondDate();
                     }
                 }, yearFirstPicker, monthFirstPicker, dayOnMonthFirstPicker);
         datePickerFirstPickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerFirstPickerDialog.show();
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), MedicalCardScreen.class));
     }
 
     public void getSecondDate() {
@@ -181,18 +205,29 @@ public class UserHistoryScreen extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         selectedEndYear = year;
-                        selectedEndMonth = month;
-                        selectedEndMonth++;
+                        selectedEndMonth = month + 1;
                         selectedEndDay = dayOfMonth;
-                        String secondDateString = selectedEndDay + "/" + selectedEndMonth + "/" + selectedEndYear;
+
+                        secondDateString = selectedEndDay + "/" + selectedEndMonth + "/" + selectedEndYear;
+
+                        //set end calendar date which will be sent to the next activity
+                        endCalendarDate = Calendar.getInstance();
+                        selectedEndMonth--;
+                        endCalendarDate.set(selectedEndYear,selectedEndMonth,selectedEndDay);
+
+                        endDateTextView.setVisibility(View.VISIBLE);
+                        endDateTextView.setText("End Date = " + secondDateString);
                         Toast.makeText(UserHistoryScreen.this, "Second Date: " + secondDateString, Toast.LENGTH_LONG).show();
-                        endDateTextView.setText("Second Date: " + secondDateString);
 
                     }
                 }, selectedStartYear, selectedStartMonth, selectedStartDay);
 
         datePickerSecondPickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         datePickerSecondPickerDialog.show();
+
+
+        //yyyy-MM-dd HH:mm:ss.SSS
+
     }
 
     /**
@@ -205,6 +240,4 @@ public class UserHistoryScreen extends AppCompatActivity {
         setTitle("History Information");
         initScreenFields();
     }
-
-
 }

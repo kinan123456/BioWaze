@@ -262,6 +262,12 @@ public class TableHistoryView extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
+    }
+
     /**
      * @param savedInstanceState
      */
