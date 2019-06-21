@@ -14,7 +14,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/Weight"
+                android:id="@+id/weight"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_row="0"
@@ -29,7 +29,7 @@
                 android:typeface="normal"></EditText>
 
             <EditText
-                android:id="@+id/WaistCircumference"
+                android:id="@+id/waistCircumference"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_row="0"
@@ -43,7 +43,7 @@
                 android:textStyle="bold"></EditText>
 
             <EditText
-                android:id="@+id/Height"
+                android:id="@+id/height"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_row="0"
@@ -71,7 +71,7 @@
                 android:textStyle="bold"></EditText>
 
             <EditText
-                android:id="@+id/Pulse"
+                android:id="@+id/pulse"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_row="0"

@@ -23,11 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class UserHistoryScreen extends AppCompatActivity {
     private RadioButton weight ,height,blood,pulse,waistCircu;
@@ -87,7 +83,7 @@ public class UserHistoryScreen extends AppCompatActivity {
                     if(selectedAnthro==-1)
                         Toast.makeText(UserHistoryScreen.this,"You have to pick one of the Anthropometric data choices",Toast.LENGTH_LONG).show();
                    else {
-                        int selectedColumn = anthroGroupChoices.getCheckedRadioButtonId();
+                        int selectedColumn = selectedAnthro;
                         RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
                         String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
 
@@ -127,11 +123,11 @@ public class UserHistoryScreen extends AppCompatActivity {
         submitButtonHistory =  findViewById(R.id.submitButtonHistory);
         startDateTextView = findViewById(R.id.startDateTextView);
         endDateTextView = findViewById(R.id.endDateTextView);
-        weight = findViewById(R.id.Weight);
-        height = findViewById(R.id.Height);
-        blood = findViewById(R.id.BloodPres);
-        waistCircu = findViewById(R.id.WaistCircumference);
-        pulse = findViewById(R.id.Pulse);
+        weight = findViewById(R.id.weight);
+        height = findViewById(R.id.height);
+        blood = findViewById(R.id.bloodPres);
+        waistCircu = findViewById(R.id.waistCircumference);
+        pulse = findViewById(R.id.pulse);
 
 
         //hide few elements at first

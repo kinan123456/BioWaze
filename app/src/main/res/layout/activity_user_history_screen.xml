@@ -67,7 +67,7 @@
                     android:textSize="20dp"></RadioButton>
 
                 <RadioButton
-                    android:id="@+id/AnthroRadio"
+                    android:id="@+id/anthroRadio"
                     android:layout_width="312dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="37dp"
@@ -85,7 +85,7 @@
                     android:orientation="vertical"
                     android:padding="6dp">
                     <RadioButton
-                        android:id="@+id/Weight"
+                        android:id="@+id/weight"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="60dp"
@@ -96,7 +96,7 @@
                         android:visibility="invisible"></RadioButton>
 
                     <RadioButton
-                        android:id="@+id/Height"
+                        android:id="@+id/height"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="60dp"
@@ -106,7 +106,7 @@
                         android:visibility="invisible"></RadioButton>
 
                     <RadioButton
-                        android:id="@+id/BloodPres"
+                        android:id="@+id/bloodPres"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="60dp"
@@ -116,7 +116,7 @@
                         android:visibility="invisible"></RadioButton>
 
                     <RadioButton
-                        android:id="@+id/WaistCircumference"
+                        android:id="@+id/waistCircumference"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="60dp"
@@ -126,7 +126,7 @@
                         android:visibility="invisible"></RadioButton>
 
                     <RadioButton
-                        android:id="@+id/Pulse"
+                        android:id="@+id/pulse"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="60dp"

@@ -69,10 +69,10 @@ public class AnthropometricDataScreen extends AppCompatActivity {
         }
     }
     public void getVariables(){
-        weight = (EditText) findViewById(R.id.Weight);
-        height = (EditText) findViewById(R.id.Height);
-        WaistCircumference = (EditText) findViewById(R.id.WaistCircumference);
-        pulse = (EditText) findViewById(R.id.Pulse);
+        weight = (EditText) findViewById(R.id.weight);
+        height = (EditText) findViewById(R.id.height);
+        WaistCircumference = (EditText) findViewById(R.id.waistCircumference);
+        pulse = (EditText) findViewById(R.id.pulse);
         bloodPressure = (EditText) findViewById(R.id.BloodPressure);
     }
 
