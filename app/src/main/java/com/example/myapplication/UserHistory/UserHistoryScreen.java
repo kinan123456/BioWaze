@@ -71,6 +71,7 @@ public class UserHistoryScreen extends AppCompatActivity {
      */
     public void checkDisplayChoice(String selectedCategoryText) {
         int selectedDisplay = visualizeByGroup.getCheckedRadioButtonId();
+        int selectedAnthro = anthroGroupChoices.getCheckedRadioButtonId();
         if (startDateTextView.getText().equals("") || endDateTextView.getText().equals("")) {
             Toast.makeText(UserHistoryScreen.this, "You have to pick a Date.", Toast.LENGTH_LONG).show();
 
@@ -83,16 +84,19 @@ public class UserHistoryScreen extends AppCompatActivity {
                 String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
                 //if display by is Graph option
                 if (selectedDisplayText.startsWith("Graph")) {
+                    if(selectedAnthro==-1)
+                        Toast.makeText(UserHistoryScreen.this,"You have to pick one of the Anthropometric data choices",Toast.LENGTH_LONG).show();
+                   else {
+                        int selectedColumn = anthroGroupChoices.getCheckedRadioButtonId();
+                        RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
+                        String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
 
-                    int selectedColumn = anthroGroupChoices.getCheckedRadioButtonId();
-                    RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
-                    String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
-
-                    Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                    intent.putExtra("selectedAnthroData",selectedColumnText);
-                    intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
-                    intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
-                    startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
+                        intent.putExtra("selectedAnthroData", selectedColumnText);
+                        intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
+                        intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
+                        startActivity(intent);
+                    }
                 }  else{
                     //if display by is Table View option
                     Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
