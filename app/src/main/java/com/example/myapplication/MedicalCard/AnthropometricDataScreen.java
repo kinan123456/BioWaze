@@ -37,9 +37,9 @@ public class AnthropometricDataScreen extends AppCompatActivity {
         tmpPulse=Integer.valueOf(tempPulse);
 
         //checking if there is any empty field  or if there are values <=0
-        if (tempWeight.isEmpty() || tempHeight.isEmpty() ||
-                tempBloodPres.isEmpty() || tempWaistCircu.isEmpty() ||
-                tempPulse.isEmpty()|| tmpweight <=0 ||
+        if (tempWeight.equals("") || tempHeight.equals("") ||
+                tempBloodPres.equals("") || tempWaistCircu.equals("") ||
+                tempPulse.equals("")|| tmpweight <=0 ||
                 tmpheight<=0 || tmpBloodPres<=0 || tmpWaistcircu<=0 || tmpPulse<=0)
             Toast.makeText(AnthropometricDataScreen.this, "One or more missing fields. Try again.", Toast.LENGTH_LONG).show();
 
