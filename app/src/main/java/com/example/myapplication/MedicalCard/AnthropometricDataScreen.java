@@ -21,16 +21,28 @@ public class AnthropometricDataScreen extends AppCompatActivity {
 
     public void SubmitClickAnthroData(View view) {
         String tempWeight, tempHeight, tempBloodPres, tempWaistCircu, tempPulse;
-
+        int tmpweight,tmpheight,tmpBloodPres,tmpWaistcircu,tmpPulse;
         getVariables();
+
         tempWeight = weight.getText().toString();
         tempHeight = height.getText().toString();
         tempBloodPres = bloodPressure.getText().toString();
         tempWaistCircu = WaistCircumference.getText().toString();
         tempPulse = pulse.getText().toString();
 
-        if (tempWeight.matches("") || tempHeight.matches("") || tempBloodPres.matches("") || tempWaistCircu.matches("") || tempPulse.matches(""))
+        tmpweight= Integer.valueOf(tempWeight);
+        tmpheight=Integer.valueOf(tempHeight);
+        tmpBloodPres=Integer.valueOf(tempBloodPres);
+        tmpWaistcircu=Integer.valueOf(tempWaistCircu);
+        tmpPulse=Integer.valueOf(tempPulse);
+
+        //checking if there is any empty field  or if there are values <=0
+        if (tempWeight.matches("") || tempHeight.matches("") ||
+                tempBloodPres.matches("") || tempWaistCircu.matches("") ||
+                tempPulse.matches("")|| tmpweight <=0 ||
+                tmpheight<=0 || tmpBloodPres<=0 || tmpWaistcircu<=0 || tmpPulse<=0)
             Toast.makeText(AnthropometricDataScreen.this, "One or more missing fields. Try again.", Toast.LENGTH_LONG).show();
+
         else {
 
             ParseObject AnthropometricData = new ParseObject("AnthropometricData");

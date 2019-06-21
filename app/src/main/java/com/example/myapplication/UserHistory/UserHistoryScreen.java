@@ -83,6 +83,7 @@ public class UserHistoryScreen extends AppCompatActivity {
                 String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
                 //if display by is Graph option
                 if (selectedDisplayText.startsWith("Graph")) {
+
                     int selectedColumn = anthroGroupChoices.getCheckedRadioButtonId();
                     RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
                     String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
