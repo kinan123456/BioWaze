@@ -65,35 +65,38 @@ public class GraphHistoryView extends AppCompatActivity {
     }
 
 
-    public void displayDataOnGraph(ArrayList listOfDates, ArrayList listOfInts){
+    public void displayDataOnGraph(ArrayList listOfDates, ArrayList listOfInts) {
         int size = listOfInts.size();
         int y;
         Date x;
         String x1;
+        if (listOfDates.isEmpty() || listOfInts.isEmpty()) {
+            Toast.makeText(GraphHistoryView.this, "There's not enough data for your selection." + "\n" +
+                    "Please choose other category and try-again!", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
+        } else {
+            GraphView graph = (GraphView) findViewById(R.id.graph);
+            series = new LineGraphSeries<>();
+            final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+            for (int i = 0; i < size; i++) {
+                x = (Date) listOfDates.get(i);
+                y = (int) listOfInts.get(i);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<>();
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
-        for(int i=0;i<size;i++) {
-            x= (Date) listOfDates.get(i);
-            y = (int)listOfInts.get(i);
-
-            series.appendData(new DataPoint(x,y),true ,size);
-        }
-        graph.addSeries(series);
-        // display Date format on x axis
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
-            public String formatLabel(double value ,boolean isValueX){
-
-                if(isValueX){
-                    return sdf.format(new Date((long) value ));
-                }
-                else
-                    return super.formatLabel(value,isValueX);
+                series.appendData(new DataPoint(x, y), true, size);
             }
-        });
-    }
+            graph.addSeries(series);
+            // display Date format on x axis
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                public String formatLabel(double value, boolean isValueX) {
 
+                    if (isValueX) {
+                        return sdf.format(new Date((long) value));
+                    } else
+                        return super.formatLabel(value, isValueX);
+                }
+            });
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
