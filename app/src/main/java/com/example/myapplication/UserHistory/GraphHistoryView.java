@@ -47,7 +47,7 @@ public class GraphHistoryView extends AppCompatActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
-                    if(list.isEmpty()){
+                    if(list.isEmpty() || list == null || list.size() <= 0){
                         Toast.makeText(GraphHistoryView.this, "There's not enough data for your selection." + "\n" +
                                 "Please choose other category and try-again!", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
@@ -111,7 +111,7 @@ public class GraphHistoryView extends AppCompatActivity {
         receivedListName = intent.getStringExtra("selectedAnthroData");
         startDate = new Date(intent.getLongExtra("startDate",-1));
         endDate = new Date(intent.getLongExtra("endDate",-1));
-        Toast.makeText(GraphHistoryView.this, receivedListName, Toast.LENGTH_LONG).show();
+
         getDataFromCloud();
     }
 }

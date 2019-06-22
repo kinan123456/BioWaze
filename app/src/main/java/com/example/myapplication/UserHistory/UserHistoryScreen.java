@@ -85,10 +85,11 @@ public class UserHistoryScreen extends AppCompatActivity {
                    else {
                         int selectedColumn = selectedAnthro;
                         RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
-                        String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
+                        String selectedColumnText = selectedCategoryRadioButton.getText().toString();
 
                         Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                        switch (selectedColumnText){
+                        intent.putExtra("selectedAnthroData",selectedColumnText);
+                        /*switch (selectedColumnText){
                             case "weight":
                                 intent.putExtra("selectedAnthroData", "weight");
                                 break;
@@ -104,7 +105,7 @@ public class UserHistoryScreen extends AppCompatActivity {
                             case "pulse":
                                 intent.putExtra("selectedAnthroData", "pulse");
                                 break;
-                        }
+                        }*/
 
                         intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
                         intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
@@ -112,13 +113,21 @@ public class UserHistoryScreen extends AppCompatActivity {
                     }
                 }  else{
                     //if display by is Table View option
-                    Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
-                    intent.putExtra("listName", selectedCategoryText);
-                    intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
-                    intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
+
+                    if (selectedAnthro != -1) {
+                        Toast.makeText(UserHistoryScreen.this,"ATM Anthropometric Data Visualization is available at Graph only.\n"
+                                + "Later it'll be possible to view this data in a Table.",Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
+                        intent.putExtra("listName", selectedCategoryText);
+                        intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
+                        intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
 
 
-                    startActivity(intent);
+                        startActivity(intent);
+                    }
+
                 }
             }
         }
