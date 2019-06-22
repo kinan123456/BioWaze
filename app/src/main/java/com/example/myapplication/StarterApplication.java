@@ -9,7 +9,6 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.facebook.ParseFacebookUtils;
 
 public class StarterApplication extends Application {
 
@@ -27,8 +26,6 @@ public class StarterApplication extends Application {
                 .server("http://13.59.185.64:80/parse/")
                 .build()
         );
-
-        //ParseFacebookUtils.initialize(this);
 
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);

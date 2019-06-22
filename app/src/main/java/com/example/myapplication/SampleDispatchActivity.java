@@ -21,6 +21,7 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
      */
     @Override
     protected Class<?> getTargetClass() {
+
         if (ParseUser.getCurrentUser().getUsername().equals("admin1@walla.com"))
             return AdminHomeActivity.class;
 

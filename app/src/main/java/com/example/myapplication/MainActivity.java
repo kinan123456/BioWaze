@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.UserActivities.UserActivitiesScreen;
 import com.parse.ParseAnalytics;
+import com.parse.ui.login.ParseLoginBuilder;
 
 public class MainActivity extends AppCompatActivity {
 

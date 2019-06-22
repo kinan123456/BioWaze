@@ -32,14 +32,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:multidex:1.0.3'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.19.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    // for logging API calls to LogCat
-    implementation 'com.opencsv:opencsv:3.9'
-    // for the widget dependency
     implementation "com.github.parse-community.ParseUI-Android:widget:0.0.5"
-    // for the login dependency
     implementation "com.github.parse-community.ParseUI-Android:login:0.0.5"
     implementation 'com.github.parse-community:ParseFacebookUtils-Android:1.13.0'
     implementation 'com.squareup:android-times-square:1.6.5@aar'
