@@ -16,7 +16,6 @@ import com.parse.SaveCallback;
 
 public class AnthropometricDataScreen extends AppCompatActivity {
 
-    //TODO validate that this works 100% and to validate input details
     private EditText weight, height, bloodPressure, WaistCircumference, pulse;
 
     public void SubmitClickAnthroData(View view) {
@@ -30,17 +29,12 @@ public class AnthropometricDataScreen extends AppCompatActivity {
         tempWaistCircu = WaistCircumference.getText().toString();
         tempPulse = pulse.getText().toString();
 
-        tmpweight= Integer.valueOf(tempWeight);
-        tmpheight=Integer.valueOf(tempHeight);
-        tmpBloodPres=Integer.valueOf(tempBloodPres);
-        tmpWaistcircu=Integer.valueOf(tempWaistCircu);
-        tmpPulse=Integer.valueOf(tempPulse);
+
 
         //checking if there is any empty field  or if there are values <=0
         if (tempWeight.equals("") || tempHeight.equals("") ||
                 tempBloodPres.equals("") || tempWaistCircu.equals("") ||
-                tempPulse.equals("")|| tmpweight <=0 ||
-                tmpheight<=0 || tmpBloodPres<=0 || tmpWaistcircu<=0 || tmpPulse<=0)
+                tempPulse.equals(""))
             Toast.makeText(AnthropometricDataScreen.this, "One or more missing fields. Try again.", Toast.LENGTH_LONG).show();
 
         else {
