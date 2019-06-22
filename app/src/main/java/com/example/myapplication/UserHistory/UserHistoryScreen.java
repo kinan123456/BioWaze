@@ -45,6 +45,8 @@ public class UserHistoryScreen extends AppCompatActivity {
         blood.setVisibility(View.VISIBLE);
         waistCircu.setVisibility(View.VISIBLE);
         pulse.setVisibility(View.VISIBLE);
+        visualizeByGroup.getChildAt(0).setEnabled(true);    //enable graph view option
+        visualizeByGroup.getChildAt(1).setEnabled(false);   //disable table view option
     }
     /***
      * Submit button has been pressed - handle the given info
@@ -78,55 +80,42 @@ public class UserHistoryScreen extends AppCompatActivity {
 
                 RadioButton selectedDisplayRadioButton = findViewById(selectedDisplay);
                 String selectedDisplayText = selectedDisplayRadioButton.getText().toString();
+                int selectedCategory = categoryHistoryGroup.getCheckedRadioButtonId();
                 //if display by is Graph option
                 if (selectedDisplayText.startsWith("Graph")) {
+                    //graph option and Anthro category selected
                     if(selectedAnthro==-1)
                         Toast.makeText(UserHistoryScreen.this,"You have to pick one of the Anthropometric data choices",Toast.LENGTH_LONG).show();
-                   else {
+                    else {
                         int selectedColumn = selectedAnthro;
                         RadioButton selectedCategoryRadioButton = (RadioButton) findViewById(selectedColumn);
-                        String selectedColumnText = selectedCategoryRadioButton.getText().toString();
-
+                        String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
+                        selectedColumnText = selectedColumnText.toLowerCase();
+                        switch(selectedColumnText) {
+                            case "bloodpressure":
+                                selectedColumnText = "bloodPressure";
+                                break;
+                                case "waistcircumference":
+                                    selectedColumnText = "waistCircumference";
+                                    break;
+                        }
                         Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
                         intent.putExtra("selectedAnthroData",selectedColumnText);
-                        /*switch (selectedColumnText){
-                            case "weight":
-                                intent.putExtra("selectedAnthroData", "weight");
-                                break;
-                            case "height":
-                                intent.putExtra("selectedAnthroData", "height");
-                                break;
-                            case "bloodPressure":
-                                intent.putExtra("selectedAnthroData", "bloodPressure");
-                                break;
-                            case"waistCircuference":
-                                intent.putExtra("selectedAnthroData", "waistCircuference");
-                                break;
-                            case "pulse":
-                                intent.putExtra("selectedAnthroData", "pulse");
-                                break;
-                        }*/
-
                         intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
                         intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
                         startActivity(intent);
                     }
-                }  else{
+                }   //end graph option selected
+
+                else {
                     //if display by is Table View option
 
-                    if (selectedAnthro != -1) {
-                        Toast.makeText(UserHistoryScreen.this,"ATM Anthropometric Data Visualization is available at Graph only.\n"
-                                + "Later it'll be possible to view this data in a Table.",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
+                    intent.putExtra("listName", selectedCategoryText);
+                    intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
+                    intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
 
-                    } else {
-                        Intent intent = new Intent(getApplicationContext(), TableHistoryView.class);
-                        intent.putExtra("listName", selectedCategoryText);
-                        intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
-                        intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
-
-
-                        startActivity(intent);
-                    }
+                    startActivity(intent);
 
                 }
             }
@@ -180,6 +169,8 @@ public class UserHistoryScreen extends AppCompatActivity {
                 blood.setVisibility(View.GONE);
                 waistCircu.setVisibility(View.GONE);
                 pulse.setVisibility(View.GONE);
+                visualizeByGroup.getChildAt(0).setEnabled(false);   //disable graph view option
+                visualizeByGroup.getChildAt(1).setEnabled(true);    //enable table view option
             }
         });
 

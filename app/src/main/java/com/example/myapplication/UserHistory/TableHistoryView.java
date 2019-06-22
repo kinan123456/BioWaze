@@ -248,7 +248,7 @@ public class TableHistoryView extends AppCompatActivity {
      * Set all rows content (set the list we got from Cloud database)
      */
     public void displayDataOnTable(List<ParseObject> list) {
-        if (list.isEmpty()) {
+        if (list.isEmpty() || list.size() == 0 || list == null) {
             Toast.makeText(TableHistoryView.this, "There's not enough data for your selection." + "\n" +
                     "Please choose other category and try-again!", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));

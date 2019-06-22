@@ -2,11 +2,15 @@
 package com.example.myapplication.UserHistory;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.parse.FindCallback;
@@ -15,27 +19,19 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import android.os.Bundle;
-import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class GraphHistoryView extends AppCompatActivity {
 
-
     private String receivedListName;
-    private ArrayList<Date> tempDatesList = new ArrayList<>();
-    private ArrayList<Integer> tempIntList = new ArrayList<>();
+    private ArrayList<Date> tempDatesList;
+    private ArrayList<Double> tempIntList;
     private LineGraphSeries<DataPoint> series;
     private Date startDate, endDate;
+    private GraphView graph;
 
     public void getDataFromCloud() {
         ParseQuery<ParseObject> query;
@@ -54,15 +50,12 @@ public class GraphHistoryView extends AppCompatActivity {
 
                     }
                     else {
-                        int l;
-                        Date date;
                         for (ParseObject obj : list) {
-                            l = obj.getInt(receivedListName);
-                            tempIntList.add(l);
-                            date = obj.getCreatedAt();
-                            tempDatesList.add(date);
+                            tempIntList.add(obj.getDouble(receivedListName));
+                            tempDatesList.add(obj.getCreatedAt());
                         }
-                        displayDataOnGraph(tempDatesList, tempIntList);   //display the data in graph view
+
+                        displayDataOnGraph();   //display the data in graph view
                     }
                 } else {
                     Toast.makeText(GraphHistoryView.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -72,33 +65,43 @@ public class GraphHistoryView extends AppCompatActivity {
     }
 
 
-    public void displayDataOnGraph(ArrayList listOfDates, ArrayList listOfInts) {
-        int size = listOfInts.size();
-        int y;
+    public void displayDataOnGraph() {
+        int size = tempIntList.size();
+        double y;
         Date x;
-        String x1;
 
-            GraphView graph = (GraphView) findViewById(R.id.graph);
-            series = new LineGraphSeries<>();
-            final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
-            for (int i = 0; i < size; i++) {
-                x = (Date) listOfDates.get(i);
-                y = (int) listOfInts.get(i);
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+        for (int i = 0; i < size; i++) {
+            x = tempDatesList.get(i);
+            y = tempIntList.get(i);
+            series.appendData(new DataPoint(x, y), true, size,true);
+        }
 
-                series.appendData(new DataPoint(x, y), true, size);
+        graph.addSeries(series);
+        // display Date format on x axis
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            public String formatLabel(double value, boolean isValueX) {
+
+                if (isValueX) {
+                    return sdf.format(new Date((long) value));
+                } else
+                    return super.formatLabel(value, isValueX);
             }
+        });
+    }
 
-            graph.addSeries(series);
-            // display Date format on x axis
-            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-                public String formatLabel(double value, boolean isValueX) {
 
-                    if (isValueX) {
-                        return sdf.format(new Date((long) value));
-                    } else
-                        return super.formatLabel(value, isValueX);
-                }
-            });
+    private void initVariables() {
+        tempIntList = new ArrayList<>();
+        tempDatesList = new ArrayList<>();
+        series = new LineGraphSeries<>();
+        graph = findViewById(R.id.graph);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
     }
 
     @Override
@@ -106,12 +109,14 @@ public class GraphHistoryView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_history_view);
         setTitle("History Graph View");
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Intent intent = getIntent();
         receivedListName = intent.getStringExtra("selectedAnthroData");
         startDate = new Date(intent.getLongExtra("startDate",-1));
         endDate = new Date(intent.getLongExtra("endDate",-1));
+        initVariables();
 
         getDataFromCloud();
     }
+
 }
