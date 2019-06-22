@@ -32,6 +32,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.ProgressCallback;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -157,25 +159,28 @@ public class TableHistoryView extends AppCompatActivity {
                     case "image" +
                             "":   //Food History column
                         ParseFile imageFile = (ParseFile) obj.get("image");
-                        imageFile.getDataInBackground(new GetDataCallback() {
-                            public void done(byte[] data, ParseException e) {
-                                if (e == null) {
-                                    final ImageView imageButton = new ImageView(TableHistoryView.this);
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                    imageButton.setImageBitmap(bitmap);
-                                    imageButton.setPadding(0,0,0,0);
-                                    imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
-                                    tableRow.addView(imageButton,300, 350);
-                                } else {
-                                    Toast.makeText(TableHistoryView.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        if (imageFile != null) {
+                            imageFile.getDataInBackground(new GetDataCallback() {
+                                public void done(byte[] data, ParseException e) {
+                                    if (e == null) {
+                                        final ImageView imageButton = new ImageView(TableHistoryView.this);
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                        imageButton.setImageBitmap(bitmap);
+                                        imageButton.setPadding(0,0,0,0);
+                                        imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+                                        tableRow.addView(imageButton,300, 350);
+                                    } else {
+                                        Toast.makeText(TableHistoryView.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        }, new ProgressCallback() {
-                            public void done(Integer percentDone) {
-                                progressBar.setVisibility(View.VISIBLE);
-                                progressBar.setProgress(percentDone);
-                            }
-                        });
+                            }, new ProgressCallback() {
+                                public void done(Integer percentDone) {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    progressBar.setProgress(percentDone);
+                                }
+                            });
+                        }
+
                         break;
 
                     default:

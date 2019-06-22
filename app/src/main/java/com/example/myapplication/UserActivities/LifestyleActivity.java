@@ -60,6 +60,10 @@ public class LifestyleActivity extends AppCompatActivity {
         Toast.makeText(LifestyleActivity.this, "Not available yet", Toast.LENGTH_LONG).show();
 
     }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), UserActivitiesScreen.class));
+    }
     /**
      * @param savedInstanceState
      */
