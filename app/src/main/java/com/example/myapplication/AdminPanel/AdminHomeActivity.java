@@ -32,6 +32,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         setTitle("Welcome, Admin");
         currentUser = ParseUser.getCurrentUser();
     }
+
     /**
      * Create options menu
      * @param menu
