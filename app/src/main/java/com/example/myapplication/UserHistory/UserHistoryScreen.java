@@ -88,7 +88,24 @@ public class UserHistoryScreen extends AppCompatActivity {
                         String selectedColumnText = selectedCategoryRadioButton.getText().toString().replaceAll("\\s", "");
 
                         Intent intent = new Intent(getApplicationContext(), GraphHistoryView.class);
-                        intent.putExtra("selectedAnthroData", selectedColumnText);
+                        switch (selectedColumnText){
+                            case "weight":
+                                intent.putExtra("selectedAnthroData", "weight");
+                                break;
+                            case "height":
+                                intent.putExtra("selectedAnthroData", "height");
+                                break;
+                            case "bloodPressure":
+                                intent.putExtra("selectedAnthroData", "bloodPressure");
+                                break;
+                            case"waistCircuference":
+                                intent.putExtra("selectedAnthroData", "waistCircuference");
+                                break;
+                            case "pulse":
+                                intent.putExtra("selectedAnthroData", "pulse");
+                                break;
+                        }
+
                         intent.putExtra("startDate", startCalendarDate.getTimeInMillis());
                         intent.putExtra("endDate", endCalendarDate.getTimeInMillis());
                         startActivity(intent);
