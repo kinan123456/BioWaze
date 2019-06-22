@@ -47,16 +47,23 @@ public class GraphHistoryView extends AppCompatActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
-                    int l;
-                    Date date;
-                    for (ParseObject obj : list){
-                        l = obj.getInt(receivedListName);
-                        tempIntList.add(l);
-                        date = obj.getCreatedAt();
-                        tempDatesList.add(date);
-                    }
-                    displayDataOnGraph(tempDatesList,tempIntList);   //display the data in graph view
+                    if(list.isEmpty()){
+                        Toast.makeText(GraphHistoryView.this, "There's not enough data for your selection." + "\n" +
+                                "Please choose other category and try-again!", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
 
+                    }
+                    else {
+                        int l;
+                        Date date;
+                        for (ParseObject obj : list) {
+                            l = obj.getInt(receivedListName);
+                            tempIntList.add(l);
+                            date = obj.getCreatedAt();
+                            tempDatesList.add(date);
+                        }
+                        displayDataOnGraph(tempDatesList, tempIntList);   //display the data in graph view
+                    }
                 } else {
                     Toast.makeText(GraphHistoryView.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -70,11 +77,7 @@ public class GraphHistoryView extends AppCompatActivity {
         int y;
         Date x;
         String x1;
-        if (listOfDates.isEmpty() || listOfInts.isEmpty()) {
-            Toast.makeText(GraphHistoryView.this, "There's not enough data for your selection." + "\n" +
-                    "Please choose other category and try-again!", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
-        } else {
+
             GraphView graph = (GraphView) findViewById(R.id.graph);
             series = new LineGraphSeries<>();
             final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
@@ -84,6 +87,7 @@ public class GraphHistoryView extends AppCompatActivity {
 
                 series.appendData(new DataPoint(x, y), true, size);
             }
+
             graph.addSeries(series);
             // display Date format on x axis
             graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
@@ -95,8 +99,8 @@ public class GraphHistoryView extends AppCompatActivity {
                         return super.formatLabel(value, isValueX);
                 }
             });
-        }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
