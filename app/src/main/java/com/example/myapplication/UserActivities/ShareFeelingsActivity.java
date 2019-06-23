@@ -20,11 +20,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,9 +49,9 @@ public class ShareFeelingsActivity extends AppCompatActivity {
         String feelingString = feelingSpinner.getSelectedItem().toString();
         String startedFeelingString = startedFeelingDatePicker.getText().toString();
         String stoppedFeelingString = stoppedFeelingDatePicker.getText().toString();
-        String reason = ((EditText)findViewById(R.id.possibleReasonContent)).getText().toString();
+        String reason = ((EditText) findViewById(R.id.possibleReasonContent)).getText().toString();
 
-        if (startedFeelingString.matches("")|| stoppedFeelingString.matches("") || reason.matches("")) {
+        if (startedFeelingString.matches("") || stoppedFeelingString.matches("") || reason.matches("")) {
             Toast.makeText(ShareFeelingsActivity.this, "One or more missing fields. Try again.", Toast.LENGTH_LONG).show();
         } else {
             try {
@@ -61,6 +61,7 @@ public class ShareFeelingsActivity extends AppCompatActivity {
                 Date startedFeelingDate = new SimpleDateFormat("dd/MM/yyyy").parse(startedFeelingString);
                 Date stoppedFeelingDate = new SimpleDateFormat("dd/MM/yyyy").parse(stoppedFeelingString);
 
+                startedFeelingDate.setDate(startedFeelingDate.getDate() + 1);
                 feelingsHistory.put("bodyPart", bodyPartString);
                 feelingsHistory.put("feeling", feelingString);
                 feelingsHistory.put("startedDate", startedFeelingDate);
@@ -71,7 +72,7 @@ public class ShareFeelingsActivity extends AppCompatActivity {
 
                 feelingsHistory.saveInBackground(new SaveCallback() {
                     @Override
-                    public void done(ParseException e) {
+                    public void done(com.parse.ParseException e) {
                         if (e == null) {
                             Toast.makeText(ShareFeelingsActivity.this, "Your Feelings are submitted", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), UserActivitiesScreen.class);
@@ -82,11 +83,11 @@ public class ShareFeelingsActivity extends AppCompatActivity {
                     }
                 });
 
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }
 
+        }
     }
 
     /**

@@ -140,50 +140,94 @@ public class DataAnalysisActivity extends AppCompatActivity {
             }
         }
         chiSquareTest("aaa", "Headache");
-        chiSquareTest("aaa", "Option2");
+
         String s11 = "";
         for (ChiSquareParams chiSquareParams : chiSquareParamsArrayList) {
 
             s11 += chiSquareParams.toString() + "\n";
 
         }
-        Toast.makeText(DataAnalysisActivity.this, "s11: " + s11, Toast.LENGTH_LONG).show();
+        Toast.makeText(DataAnalysisActivity.this, "Got\n" + s11, Toast.LENGTH_LONG).show();
     }
 
+    /***
+     * calc number of: food YES & feelings after-2-days YES which represents N1 parameter for chi-test
+     * calc number of: food YES & feelings after-2-days NO which represents N2 parameter for chi-test
+     * calc number of: food NO & feelings after-2-days YES which represents N3 parameter for chi-test
+     * calc number of: food NO & feelings after-2-days NO which represents N4 parameter for chi-test
+     *
+     * @param foodSetString
+     * @param feelingsSetString
+     */
     private void chiSquareTest(String foodSetString, String feelingsSetString) {
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        int counter = 0;
-        String s = "";
-        //calc number of: food YES & feelings after-2-days YES which represents N1 parameter for chi-test
         for (Map.Entry<String, HashSet<String>> entryFood : DBFoodList.entrySet()) {
             if (entryFood.getValue().contains(foodSetString)) { //if this row in map contains this food we're checking
                 String dateOfThisFoodString = entryFood.getKey();  //get date when user eat this food
-                Date dateOfThisFood = null;
+                Date dateOfThisFood;
+                long daysDiff;
                 try {
                     dateOfThisFood = simpleDateFormat.parse(dateOfThisFoodString);
+                    for (Map.Entry<String, HashSet<String>> entryFeelings : DBFeeLingList.entrySet()) {
+                        String feelingsDateString = entryFeelings.getKey();
+                        Date feelingsDate = simpleDateFormat.parse(feelingsDateString);
+
+                        if (feelingsDate.after(dateOfThisFood)) {
+                            daysDiff = (feelingsDate.getTime() - dateOfThisFood.getTime()) / (24 * 60 * 60 * 1000);
+                            //end if feelingDate after foodDate
+                            if (daysDiff <= 2) {
+                                if (entryFeelings.getValue().contains(feelingsSetString)) {
+                                    N1++;   //food YES & feelings after-2-days YES
+                                }   //end if row has 'feelingString'
+                                else {
+                                    N2++;   //food YES & feelings after-2-days NO
+                                }
+                            }
+                        }
+                    }   //end foreach DBFeelingList
+
+                } catch (java.text.ParseException e) {
+                    Toast.makeText(DataAnalysisActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }   //end catch
+            }   //end if row has 'foodString'
+
+            else {  //row doesn't have 'foodString'
+                String dateOfNotThisFoodString = entryFood.getKey();  //get date when user didn't eat this food
+                Date dateOfNotThisFood;
+                long daysDiff;
+                try {
+                    dateOfNotThisFood = simpleDateFormat.parse(dateOfNotThisFoodString);
                     for (Map.Entry<String, HashSet<String>> entryFeelings : DBFeeLingList.entrySet()) {
                         if (entryFeelings.getValue().contains(feelingsSetString)) {
                             String feelingsDateString = entryFeelings.getKey();
                             Date feelingsDate = simpleDateFormat.parse(feelingsDateString);
-                            if (feelingsDate.after(dateOfThisFood)) {
-                                long daysDiff = (feelingsDate.getTime() - dateOfThisFood.getTime()) / (24 * 60 * 60 * 1000);
+                            if (feelingsDate.after(dateOfNotThisFood)) {
+                                daysDiff = (feelingsDate.getTime() - dateOfNotThisFood.getTime()) / (24 * 60 * 60 * 1000);
                                 if (daysDiff <= 2) {
-
-                                    N1++;
+                                    if (entryFeelings.getValue().contains(feelingsSetString)) {
+                                        N3++;   //food NO & feelings after-2-days YES
+                                    }
+                                    else {
+                                        N4++;   //food NO & feelings after-2-days NO
+                                    }   //end else
                                 }
-                            }
-                        }
-                    }
-                    ChiSquareParams chiSquareParams = new ChiSquareParams(foodSetString,feelingsSetString, N1);
-                    N1 = 0;
-                    chiSquareParamsArrayList.add(chiSquareParams);
-                }catch (java.text.ParseException e) {
-                    Toast.makeText(DataAnalysisActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }   //end if feelingDate after foodDate
+                        }   //end if row has 'feelingString'
+                    }   //end foreach DBFeelingList
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
                 }
+            }   //end else
 
-            }
-        }
-    }
+        }//end foreach DBFoodList
+        ChiSquareParams chiSquareParams = new ChiSquareParams(foodSetString, feelingsSetString, N1, N2, N3, N4);
+        N1 = 0;
+        N2 = 0;
+        N3 = 0;
+        N4 = 0;
+        chiSquareParamsArrayList.add(chiSquareParams);
+    }   //end function
 
     /***
      * Query from Parse Dashboard to get all food kinds & feelings kinds input for a User
@@ -298,22 +342,25 @@ public class DataAnalysisActivity extends AppCompatActivity {
      */
     private class ChiSquareParams {
         String food, feelings;
-        int n1;
+        int n1, n2, n3, n4;
         public ChiSquareParams() {
             food = "";
             feelings = "";
-            n1 = 0;
+            n1 = n2 = n3 = n4;
         }
 
-        public ChiSquareParams(String food, String feelings, int n1) {
+        public ChiSquareParams(String food, String feelings, int n1, int n2, int n3, int n4) {
             this.food = food;
             this.feelings = feelings;
             this.n1 = n1;
+            this.n2 = n2;
+            this.n3 = n3;
+            this.n4 = n4;
         }
 
         public String toString() {
             return "food: " + this.food + " feelings: " + this.feelings +
-                    " n1: " + this.n1 + "\n";
+                    " \nn1: " + this.n1 + ", n2: " + this.n2 + ", n3: " + this.n3 + ", n4: " + this.n4 + "\n";
         }
 
     }
