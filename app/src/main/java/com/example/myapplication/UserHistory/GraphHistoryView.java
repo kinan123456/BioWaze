@@ -80,6 +80,7 @@ public class GraphHistoryView extends AppCompatActivity {
         graph.addSeries(series);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Date");
         graph.getGridLabelRenderer().setVerticalAxisTitle(receivedListName);
+
         // display Date format on x axis
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             public String formatLabel(double value, boolean isValueX) {

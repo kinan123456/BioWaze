@@ -5,21 +5,33 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     tools:context=".AdminPanel.ManageUsersActivity">
-
-    <TextView android:layout_height="wrap_content"
+    <ScrollView
+        android:id="@+id/layoutAdmin"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal|vertical"
         android:layout_width="match_parent"
-        android:id="@+id/adminLabelManageUsers">
+        android:scrollbarStyle="outsideInset"
+        android:fillViewport="true">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/adminLabelManageUsers">
 
-    </TextView>
-    <TableLayout
-        android:stretchColumns="0,1"
-        android:layout_below="@+id/adminLabelManageUsers"
-        android:id="@+id/manageUsersTable"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-    </TableLayout>
+            </TextView>
+            <TableLayout
+                android:stretchColumns="0,1"
+                android:layout_below="@+id/adminLabelManageUsers"
+                android:id="@+id/manageUsersTable"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </TableLayout>
+        </RelativeLayout>
 
+
+    </ScrollView>
 
 
 </RelativeLayout>

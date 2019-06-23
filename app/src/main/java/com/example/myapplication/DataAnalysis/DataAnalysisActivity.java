@@ -22,6 +22,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,6 +40,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
     private int N1, N2, N3, N4;
     private int matrixParams [][];
     private ProgressBar progressBar;
+    ArrayList<ChiSquareParams> chiSquareParamsArrayList = new ArrayList<>();
 
 
     /***
@@ -91,6 +93,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
     /***
      * Initialize 4 parameters for the Hypothesis method that is in server
+     * (represent the chi-square 2x2 matrix)
      */
     private void initializeParametersForChiSquare() {
         String s = "";
@@ -120,20 +123,66 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     long daysDiff = (feelingsSharedDate.getTime() - foodEattenDate.getTime()) / (24*60*60*1000);
 
                     if (daysDiff <= 2) {
+
                         //now we have to scan the values of these two keys and get 2 variables which we'll send to server to check
                         //if they're independent
 
-                        for (String foodSetString : entryFood.getValue()) {
+                        /*for (String foodSetString : entryFood.getValue()) {
                             for (String feelingsSetString : entryFeelings.getValue()) {
                                 s += "First: " + foodSetString + ", Second: " + feelingsSetString + "\n";
+                                chiSquareTest(foodSetString,feelingsSetString);
+
                             }
-                        }
+                        }*/
                     }
                 }
 
             }
         }
-        Toast.makeText(DataAnalysisActivity.this,  "Text=\n" + s, Toast.LENGTH_LONG).show();
+        chiSquareTest("aaa", "Headache");
+        chiSquareTest("aaa", "Option2");
+        String s11 = "";
+        for (ChiSquareParams chiSquareParams : chiSquareParamsArrayList) {
+
+            s11 += chiSquareParams.toString() + "\n";
+
+        }
+        Toast.makeText(DataAnalysisActivity.this, "s11: " + s11, Toast.LENGTH_LONG).show();
+    }
+
+    private void chiSquareTest(String foodSetString, String feelingsSetString) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        int counter = 0;
+        String s = "";
+        //calc number of: food YES & feelings after-2-days YES which represents N1 parameter for chi-test
+        for (Map.Entry<String, HashSet<String>> entryFood : DBFoodList.entrySet()) {
+            if (entryFood.getValue().contains(foodSetString)) { //if this row in map contains this food we're checking
+                String dateOfThisFoodString = entryFood.getKey();  //get date when user eat this food
+                Date dateOfThisFood = null;
+                try {
+                    dateOfThisFood = simpleDateFormat.parse(dateOfThisFoodString);
+                    for (Map.Entry<String, HashSet<String>> entryFeelings : DBFeeLingList.entrySet()) {
+                        if (entryFeelings.getValue().contains(feelingsSetString)) {
+                            String feelingsDateString = entryFeelings.getKey();
+                            Date feelingsDate = simpleDateFormat.parse(feelingsDateString);
+                            if (feelingsDate.after(dateOfThisFood)) {
+                                long daysDiff = (feelingsDate.getTime() - dateOfThisFood.getTime()) / (24 * 60 * 60 * 1000);
+                                if (daysDiff <= 2) {
+
+                                    N1++;
+                                }
+                            }
+                        }
+                    }
+                    ChiSquareParams chiSquareParams = new ChiSquareParams(foodSetString,feelingsSetString, N1);
+                    N1 = 0;
+                    chiSquareParamsArrayList.add(chiSquareParams);
+                }catch (java.text.ParseException e) {
+                    Toast.makeText(DataAnalysisActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }
     }
 
     /***
@@ -225,6 +274,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
         allFeelingKinds = new HashSet<>();
         allFoodKinds = new HashSet<>();
         matrixParams = new int [2][2];
+        N1 = N2 = N3 = N4 = 0;
     }
 
     /***
@@ -240,6 +290,32 @@ public class DataAnalysisActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         setTitle("Data Analysis");
         initializeVariables();
+    }
+
+
+    /**
+     * class ofr chi-square params
+     */
+    private class ChiSquareParams {
+        String food, feelings;
+        int n1;
+        public ChiSquareParams() {
+            food = "";
+            feelings = "";
+            n1 = 0;
+        }
+
+        public ChiSquareParams(String food, String feelings, int n1) {
+            this.food = food;
+            this.feelings = feelings;
+            this.n1 = n1;
+        }
+
+        public String toString() {
+            return "food: " + this.food + " feelings: " + this.feelings +
+                    " n1: " + this.n1 + "\n";
+        }
+
     }
 
 }
