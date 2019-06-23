@@ -212,6 +212,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
                                         N4++;   //food NO & feelings after-2-days NO
                                     }   //end else
                                 }
+
                             }   //end if feelingDate after foodDate
                         }   //end if row has 'feelingString'
 
