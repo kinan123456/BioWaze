@@ -214,6 +214,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
                                 }
                             }   //end if feelingDate after foodDate
                         }   //end if row has 'feelingString'
+
                     }   //end foreach DBFeelingList
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
