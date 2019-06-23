@@ -60,7 +60,6 @@ public class ShareFeelingsActivity extends AppCompatActivity {
 
                 Date startedFeelingDate = new SimpleDateFormat("dd/MM/yyyy").parse(startedFeelingString);
                 Date stoppedFeelingDate = new SimpleDateFormat("dd/MM/yyyy").parse(stoppedFeelingString);
-
                 startedFeelingDate.setDate(startedFeelingDate.getDate() + 1);
                 feelingsHistory.put("bodyPart", bodyPartString);
                 feelingsHistory.put("feeling", feelingString);
