@@ -91,7 +91,7 @@
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
                 android:onClick="SubmitClickAnthroData"
-                android:text="Submit"
+                android:text="Store"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>

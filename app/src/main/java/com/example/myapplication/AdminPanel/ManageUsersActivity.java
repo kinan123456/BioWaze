@@ -248,6 +248,7 @@ public class ManageUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_users);
         setTitle("Manage Users");
+
         usersTable = findViewById(R.id.manageUsersTable);
         adminNameLabel = findViewById(R.id.adminLabelManageUsers);
         adminNameLabel.setText("You're logged in as: "+ ParseUser.getCurrentUser().getUsername() + "\n" +

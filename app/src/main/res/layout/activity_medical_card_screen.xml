@@ -20,7 +20,7 @@
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
                 android:onClick="shareMedicalDataClick"
-                android:text="Share Medical Data"
+                android:text="Store Medical Data"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>

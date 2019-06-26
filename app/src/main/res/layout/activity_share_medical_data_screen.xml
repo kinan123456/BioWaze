@@ -20,7 +20,7 @@
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
                 android:onClick="AnthropometricDataClick"
-                android:text="Share Anthropometric Data"
+                android:text="Store Anthropometric Data"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
@@ -32,7 +32,7 @@
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
                 android:onClick="MedicalTestClick"
-                android:text="Share Your Medical Test"
+                android:text="Store Your Medical Test"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
@@ -44,7 +44,7 @@
                 android:layout_marginLeft="-1dp"
                 android:layout_marginTop="-1dp"
                 android:onClick="DoctorVisitClick"
-                android:text="Share Your Doctor Visits"
+                android:text="Store Your Doctor Visits"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
