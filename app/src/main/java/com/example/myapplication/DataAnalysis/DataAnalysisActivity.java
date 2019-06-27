@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -139,15 +141,32 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
             }
         }
-        chiSquareTest("aaa", "Headache");
+        chiSquareTest("ssss", "Headache");
+        HashMap<String, Object> params = new HashMap<>();
 
         String s11 = "";
+        /***
+         * call the algorithm that is in the server (function called chiSquareTest)
+         * using ParseCloud codes. we send a map which contains all the n1-n4 parameters
+         * for the desired food&feelings variables and display results on screen
+         */
         for (ChiSquareParams chiSquareParams : chiSquareParamsArrayList) {
-
+            params.put("n1", String.valueOf(chiSquareParams.n1));
+            params.put("n2", String.valueOf(chiSquareParams.n2));
+            params.put("n3", String.valueOf(chiSquareParams.n3));
+            params.put("n4", String.valueOf(chiSquareParams.n4));
             s11 += chiSquareParams.toString() + "\n";
-
         }
-        Toast.makeText(DataAnalysisActivity.this, "Got\n" + s11, Toast.LENGTH_LONG).show();
+        ParseCloud.callFunctionInBackground("chiSquareTest", params, new FunctionCallback<HashMap<String,String>>() {
+
+            @Override
+            public void done(HashMap<String,String> object, ParseException e) {
+                if (e == null) {
+                    Toast.makeText(DataAnalysisActivity.this, "Got size\n" + object.size(), Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
     }
 
     /***
@@ -345,11 +364,6 @@ public class DataAnalysisActivity extends AppCompatActivity {
     private class ChiSquareParams {
         String food, feelings;
         int n1, n2, n3, n4;
-        public ChiSquareParams() {
-            food = "";
-            feelings = "";
-            n1 = n2 = n3 = n4;
-        }
 
         public ChiSquareParams(String food, String feelings, int n1, int n2, int n3, int n4) {
             this.food = food;

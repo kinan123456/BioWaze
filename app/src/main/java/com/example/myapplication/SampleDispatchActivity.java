@@ -4,6 +4,7 @@
 
 package com.example.myapplication;
 
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.myapplication.AdminPanel.AdminHomeActivity;
@@ -34,4 +35,5 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
         Toast.makeText(SampleDispatchActivity.this, "Nothing happens.", Toast.LENGTH_LONG).show();
 
     }
+
 }
