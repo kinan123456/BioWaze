@@ -6,7 +6,6 @@
 
 package com.example.myapplication.DataAnalysis;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.R;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
@@ -29,6 +27,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,9 +52,10 @@ public class DataAnalysisActivity extends AppCompatActivity {
     private ProgressBar progressBar, progressBar2;
     private ChiSquareParams chiSquareParams;
     private Spinner foodFeelingSpinner;
-    private Button startAnalyzeButton;
-    private ArrayList<ChiSquareParams> chiSquareParamsArrayList;
-    private ArrayList<String> listOfItems;
+    private Button startAnalyzeButton, analyzeMoreButton;
+    private String[] seperated;
+    private ArrayList<String> listOfItems, spinnerItems;
+    private ArrayList<CountFood> countFoodList;
 
     /***
      *  Method to analyze lifestyle input data
@@ -64,13 +66,16 @@ public class DataAnalysisActivity extends AppCompatActivity {
     public void startAnalyzeClick(View view) {
 
         Handler handler = new Handler();
+
         progressBar.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
             @Override
 
             public void run() {
 
-                chiSquareTest("ssss", "Headache");
+                String selectedRowString = (String) listOfItems.get(foodFeelingSpinner.getSelectedItemPosition());
+                seperated = selectedRowString.split(",");
+                chiSquareTest(seperated[0], seperated[1]);
                 HashMap<String, Object> params = new HashMap<>();
 
                 /***
@@ -78,26 +83,47 @@ public class DataAnalysisActivity extends AppCompatActivity {
                  * using ParseCloud codes. we send a map which contains all the n1-n4 parameters
                  * for the desired food&feelings variables and display results on screen
                  */
-                for (ChiSquareParams chiSquareParams : chiSquareParamsArrayList) {
-                    params.put("n1", String.valueOf(chiSquareParams.n1));
-                    params.put("n2", String.valueOf(chiSquareParams.n2));
-                    params.put("n3", String.valueOf(chiSquareParams.n3));
-                    params.put("n4", String.valueOf(chiSquareParams.n4));
-                    //s11 += chiSquareParams.toString() + "\n";
-                }
+                params.put("n1", String.valueOf(chiSquareParams.n1));
+                params.put("n2", String.valueOf(chiSquareParams.n2));
+                params.put("n3", String.valueOf(chiSquareParams.n3));
+                params.put("n4", String.valueOf(chiSquareParams.n4));
+                Toast.makeText(DataAnalysisActivity.this, "," + chiSquareParams.n1 + "," +
+                        chiSquareParams.n2 + "," + chiSquareParams.n3
+                        + "," + chiSquareParams.n4, Toast.LENGTH_LONG).show();
+
+
                 ParseCloud.callFunctionInBackground("chiSquareTest", params, new FunctionCallback<HashMap<String, String>>() {
 
                     @Override
                     public void done(HashMap<String, String> object, ParseException e) {
                         if (e == null) {
-                            Toast.makeText(DataAnalysisActivity.this, "Got\n" + object.get("answer"), Toast.LENGTH_LONG).show();
+                            String answer = object.get("answer");
+                            String depIndep = null;
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(answer);
+                                depIndep = (String) jsonObject.get("firstresult");
+
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            Toast.makeText(DataAnalysisActivity.this, "\nFood: " + seperated[0] + ", Feeling: " + seperated[1]
+                                    + "\nBased on your data they're " + depIndep, Toast.LENGTH_LONG).show();
+
 
                         }
                     }
                 });
+                params.clear();
                 progressBar.setVisibility(View.GONE);
             }
-        }, 10000);
+        }, 3000);
+    }
+
+    public void analyzeMoreButtonClick(View view) {
+        Toast.makeText(DataAnalysisActivity.this, "food list size = " + DBFoodList.size(), Toast.LENGTH_LONG).show();
+
     }
 
     /***
@@ -136,14 +162,15 @@ public class DataAnalysisActivity extends AppCompatActivity {
                         for (String foodSetString : entryFood.getValue()) {
                             for (String feelingsSetString : entryFeelings.getValue()) {
                                 String temp = foodSetString + "," + feelingsSetString;
+                                String temp2 = foodSetString + " on " + foodEattenDateString + ", " + feelingsSetString + " on " + feelingsSharedDateString;
                                 listOfItems.add(temp);
+                                spinnerItems.add(temp2);
                             }
                         }
                     }
                 }
             }
         }
-
     }
 
     /***
@@ -156,7 +183,8 @@ public class DataAnalysisActivity extends AppCompatActivity {
      * @param feelingsSetString
      */
     public void chiSquareTest(String foodSetString, String feelingsSetString) {
-
+        int n1, n2, n3, n4;
+        n1 = n2 = n3 = n4 = 0;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         for (Map.Entry<String, HashSet<String>> entryFood : DBFoodList.entrySet()) {
             if (entryFood.getValue().contains(foodSetString)) { //if this row in map contains this food we're checking
@@ -175,9 +203,11 @@ public class DataAnalysisActivity extends AppCompatActivity {
                             if (daysDiff <= 2) {
                                 if (entryFeelings.getValue().contains(feelingsSetString)) {
                                     N1++;   //food YES & feelings after-2-days YES
+                                    n1++;
                                 }   //end if row has 'feelingString'
                                 else {
-                                    N2++;   //food YES & feelings after-2-days NO
+                                    N2++;   //food YES & feelings after-2-days
+                                    n2++;
                                 }
                             }
                         }
@@ -203,9 +233,11 @@ public class DataAnalysisActivity extends AppCompatActivity {
                                 if (daysDiff <= 2) {
                                     if (entryFeelings.getValue().contains(feelingsSetString)) {
                                         N3++;   //food NO & feelings after-2-days YES
+                                        n3++;
                                     }
                                     else {
                                         N4++;   //food NO & feelings after-2-days NO
+                                        n4++;
                                     }   //end else
                                 }
 
@@ -219,12 +251,8 @@ public class DataAnalysisActivity extends AppCompatActivity {
             }   //end else
 
         }//end foreach DBFoodList
-        chiSquareParams = new ChiSquareParams(foodSetString, feelingsSetString, N1, N2, N3, N4);
-        N1 = 0;
-        N2 = 0;
-        N3 = 0;
-        N4 = 0;
-        chiSquareParamsArrayList.add(chiSquareParams);
+        chiSquareParams = new ChiSquareParams(foodSetString, feelingsSetString, n1, n2, n3, n4);
+
     }   //end function
 
     /***
@@ -315,16 +343,19 @@ public class DataAnalysisActivity extends AppCompatActivity {
         allDates = new HashSet<>();
         allFeelingKinds = new HashSet<>();
         allFoodKinds = new HashSet<>();
-        chiSquareParamsArrayList = new ArrayList<>();
         listOfItems = new ArrayList<>();
+        spinnerItems = new ArrayList<>();
+        countFoodList = new ArrayList<>();
         N1 = N2 = N3 = N4 = 0;
         foodFeelingSpinner = findViewById(R.id.foodFeelingSpinner);
         otherLabel = findViewById(R.id.otherLabel);
         startAnalyzeButton = findViewById(R.id.startAnalyzeButton);
+        analyzeMoreButton = findViewById(R.id.analyzeMoreButton);
         dataAnalysisLabel = findViewById(R.id.dataAnalysisLabel);
         foodFeelingSpinner.setVisibility(View.GONE);
         otherLabel.setVisibility(View.GONE);
         startAnalyzeButton.setVisibility(View.GONE);
+        analyzeMoreButton.setVisibility(View.GONE);
 
     }
 
@@ -392,6 +423,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     foodFeelingSpinner.setVisibility(View.VISIBLE);
                     startAnalyzeButton.setVisibility(View.VISIBLE);
                     progressBar2.setVisibility(View.GONE);
+                    analyzeMoreButton.setVisibility(View.VISIBLE);
                     dataAnalysisLabel.setText("Provided pairs are food that you ate on Date X and feeling you felt" +
                             " on maximum 2 days after");
                     dataAnalysisLabel.setTextColor(Color.RED);
@@ -407,7 +439,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
      */
     public void initializeSpinnerFoodFeeling() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         foodFeelingSpinner.setAdapter(adapter);
     }
@@ -434,6 +466,16 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     " \nn1: " + this.n1 + ", n2: " + this.n2 + ", n3: " + this.n3 + ", n4: " + this.n4 + "\n";
         }
 
+    }
+
+    private class CountFood {
+        private int count;
+        private String foodName;
+
+        public CountFood(int count, String foodName) {
+            this.count = count;
+            this.foodName = foodName;
+        }
     }
 
 }
