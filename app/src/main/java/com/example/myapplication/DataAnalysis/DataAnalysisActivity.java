@@ -6,6 +6,7 @@
 
 package com.example.myapplication.DataAnalysis;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,9 +46,8 @@ public class DataAnalysisActivity extends AppCompatActivity {
     /***
      * Variables Deceleration
      */
-    private HashMap<String, HashSet<String>> DBFeeLingList, DBFoodList;
+    public static HashMap<String, HashSet<String>> DBFeeLingList, DBFoodList;
     private HashSet<String> allDates, allFoodKinds, allFeelingKinds;
-    private int N1, N2, N3, N4;
     private TextView otherLabel, dataAnalysisLabel;
     private ProgressBar progressBar, progressBar2;
     private ChiSquareParams chiSquareParams;
@@ -66,7 +66,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
     public void startAnalyzeClick(View view) {
 
         Handler handler = new Handler();
-
+        analyzeMoreButton.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
             @Override
@@ -117,13 +117,14 @@ public class DataAnalysisActivity extends AppCompatActivity {
                 });
                 params.clear();
                 progressBar.setVisibility(View.GONE);
+                analyzeMoreButton.setVisibility(View.VISIBLE);
             }
         }, 3000);
     }
 
     public void analyzeMoreButtonClick(View view) {
-        Toast.makeText(DataAnalysisActivity.this, "food list size = " + DBFoodList.size(), Toast.LENGTH_LONG).show();
-
+        Intent intent = new Intent(getApplicationContext(), MonthWeekAverageAnalysis.class);
+        startActivity(intent);
     }
 
     /***
@@ -202,12 +203,10 @@ public class DataAnalysisActivity extends AppCompatActivity {
                             //end if feelingDate after foodDate
                             if (daysDiff <= 2) {
                                 if (entryFeelings.getValue().contains(feelingsSetString)) {
-                                    N1++;   //food YES & feelings after-2-days YES
-                                    n1++;
+                                    n1++;//food YES & feelings after-2-days YES
                                 }   //end if row has 'feelingString'
                                 else {
-                                    N2++;   //food YES & feelings after-2-days
-                                    n2++;
+                                    n2++;   //food YES & feelings after-2-days
                                 }
                             }
                         }
@@ -232,12 +231,10 @@ public class DataAnalysisActivity extends AppCompatActivity {
                                 daysDiff = (feelingsDate.getTime() - dateOfNotThisFood.getTime()) / (24 * 60 * 60 * 1000);
                                 if (daysDiff <= 2) {
                                     if (entryFeelings.getValue().contains(feelingsSetString)) {
-                                        N3++;   //food NO & feelings after-2-days YES
-                                        n3++;
+                                        n3++;   //food NO & feelings after-2-days YES
                                     }
                                     else {
-                                        N4++;   //food NO & feelings after-2-days NO
-                                        n4++;
+                                        n4++;   //food NO & feelings after-2-days NO
                                     }   //end else
                                 }
 
@@ -346,7 +343,6 @@ public class DataAnalysisActivity extends AppCompatActivity {
         listOfItems = new ArrayList<>();
         spinnerItems = new ArrayList<>();
         countFoodList = new ArrayList<>();
-        N1 = N2 = N3 = N4 = 0;
         foodFeelingSpinner = findViewById(R.id.foodFeelingSpinner);
         otherLabel = findViewById(R.id.otherLabel);
         startAnalyzeButton = findViewById(R.id.startAnalyzeButton);
@@ -446,7 +442,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
 
     /**
-     * class for chi-square params that contains 4 paramets (n1---n4)
+     * class for chi-square params that contains 4 parameters (n1---n4)
      */
     private class ChiSquareParams {
         String food, feelings;
@@ -479,8 +475,3 @@ public class DataAnalysisActivity extends AppCompatActivity {
     }
 
 }
-
-
-
-
-

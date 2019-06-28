@@ -14,10 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DataAnalysis.MonthWeekAverageAnalysis"
+            android:parentActivityName=".DataAnalysis.DataAnalysisActivity" />
         <activity android:name=".AdminPanel.ManageUsersActivity" />
         <activity android:name=".AdminPanel.AdminHomeActivity" />
-        <activity android:name=".UserHistory.GraphHistoryView"
-            android:parentActivityName=".UserHistory.UserHistoryScreen"/>
+        <activity
+            android:name=".UserHistory.GraphHistoryView"
+            android:parentActivityName=".UserHistory.UserHistoryScreen" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".MedicalCard.AnthropometricDataScreen" />
         <activity android:name=".DataAnalysis.DataAnalysisActivity" />
