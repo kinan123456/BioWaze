@@ -413,7 +413,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     progressBar2.setVisibility(View.GONE);
                     dataAnalysisLabel.setText("No Food-Feelings pairs found for analyze");
                     dataAnalysisLabel.setTextColor(Color.RED);
-
+                    analyzeMoreButton.setVisibility(View.VISIBLE);
                 } else {
                     otherLabel.setVisibility(View.VISIBLE);
                     foodFeelingSpinner.setVisibility(View.VISIBLE);

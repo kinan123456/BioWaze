@@ -157,9 +157,9 @@ public class MonthWeekAverageAnalysis extends AppCompatActivity {
 
         if (flag) {
             //feelings
-            Toast.makeText(MonthWeekAverageAnalysis.this, "You feel " + type + " in average each " + (30 / counter) + " day.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MonthWeekAverageAnalysis.this, "Based on your Stored data:\nYou feel " + type + " in average each " + (30 / counter) + " day.", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(MonthWeekAverageAnalysis.this, "You eat " + type + " in average each " + (30 / counter) + " day.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MonthWeekAverageAnalysis.this, "Based on your Stored Data:\nYou eat " + type + " in average each " + (30 / counter) + " day.", Toast.LENGTH_LONG).show();
         }
 
 
