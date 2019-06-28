@@ -6,14 +6,21 @@
 
 package com.example.myapplication.DataAnalysis;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.R;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
@@ -40,10 +47,13 @@ public class DataAnalysisActivity extends AppCompatActivity {
     private HashMap<String, HashSet<String>> DBFeeLingList, DBFoodList;
     private HashSet<String> allDates, allFoodKinds, allFeelingKinds;
     private int N1, N2, N3, N4;
-    private int matrixParams [][];
-    private ProgressBar progressBar;
-    ArrayList<ChiSquareParams> chiSquareParamsArrayList = new ArrayList<>();
-
+    private TextView otherLabel, dataAnalysisLabel;
+    private ProgressBar progressBar, progressBar2;
+    private ChiSquareParams chiSquareParams;
+    private Spinner foodFeelingSpinner;
+    private Button startAnalyzeButton;
+    private ArrayList<ChiSquareParams> chiSquareParamsArrayList;
+    private ArrayList<String> listOfItems;
 
     /***
      *  Method to analyze lifestyle input data
@@ -52,9 +62,6 @@ public class DataAnalysisActivity extends AppCompatActivity {
      * @param view
      */
     public void startAnalyzeClick(View view) {
-        getDataToAnalyze("FeelingsHistory", "feeling");
-        allDates.clear();
-        getDataToAnalyze("FoodHistory", "whatEat");
 
         Handler handler = new Handler();
         progressBar.setVisibility(View.VISIBLE);
@@ -62,48 +69,45 @@ public class DataAnalysisActivity extends AppCompatActivity {
             @Override
 
             public void run() {
-                String s = "";
-                Iterator<Map.Entry<String, HashSet<String>>> it;
 
-                it = DBFeeLingList.entrySet().iterator();   //to remove empty values from map
-                while (it.hasNext()) {
-                    Map.Entry<String, HashSet<String>> e = it.next();
-                    HashSet<String> value = e.getValue();
-                    if (value.isEmpty() || e.getKey().isEmpty()) {
-                        it.remove();
-                    }
+                chiSquareTest("ssss", "Headache");
+                HashMap<String, Object> params = new HashMap<>();
+
+                /***
+                 * call the algorithm that is in the server (function called chiSquareTest)
+                 * using ParseCloud codes. we send a map which contains all the n1-n4 parameters
+                 * for the desired food&feelings variables and display results on screen
+                 */
+                for (ChiSquareParams chiSquareParams : chiSquareParamsArrayList) {
+                    params.put("n1", String.valueOf(chiSquareParams.n1));
+                    params.put("n2", String.valueOf(chiSquareParams.n2));
+                    params.put("n3", String.valueOf(chiSquareParams.n3));
+                    params.put("n4", String.valueOf(chiSquareParams.n4));
+                    //s11 += chiSquareParams.toString() + "\n";
                 }
+                ParseCloud.callFunctionInBackground("chiSquareTest", params, new FunctionCallback<HashMap<String, String>>() {
 
-                it = DBFoodList.entrySet().iterator();  //to remove empty values from map
-                while (it.hasNext()) {
-                    Map.Entry<String, HashSet<String>> e = it.next();
-                    HashSet<String> value = e.getValue();
-                    if (value.isEmpty() || e.getKey().isEmpty()) {
-                        it.remove();
+                    @Override
+                    public void done(HashMap<String, String> object, ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(DataAnalysisActivity.this, "Got\n" + object.get("answer"), Toast.LENGTH_LONG).show();
+
+                        }
                     }
-                }
-
-                initializeParametersForChiSquare();
-
+                });
                 progressBar.setVisibility(View.GONE);
             }
-        },4000);
-
-
-
+        }, 10000);
     }
 
     /***
      * Initialize 4 parameters for the Hypothesis method that is in server
      * (represent the chi-square 2x2 matrix)
      */
-    private void initializeParametersForChiSquare() {
-        String s = "";
-        int count = 0;
-        HashSet<String> foodHashSetNeeded, feelingsHashSetNeeded;
+    public void initializeParametersForChiSquare() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         for (Map.Entry<String,HashSet<String>> entryFood : DBFoodList.entrySet()) {
-            String foodEattenDateString = (String) entryFood.getKey();
+            String foodEattenDateString =  entryFood.getKey();
 
             Date foodEattenDate = null;
             try {
@@ -113,7 +117,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
             }
 
             for (Map.Entry<String,HashSet<String>> entryFeelings : DBFeeLingList.entrySet()) {
-                String feelingsSharedDateString = (String) entryFeelings.getKey();
+                String feelingsSharedDateString = entryFeelings.getKey();
                 Date feelingsSharedDate = null;
                 try {
                     feelingsSharedDate = simpleDateFormat.parse(feelingsSharedDateString);
@@ -129,44 +133,17 @@ public class DataAnalysisActivity extends AppCompatActivity {
                         //now we have to scan the values of these two keys and get 2 variables which we'll send to server to check
                         //if they're independent
 
-                        /*for (String foodSetString : entryFood.getValue()) {
+                        for (String foodSetString : entryFood.getValue()) {
                             for (String feelingsSetString : entryFeelings.getValue()) {
-                                s += "First: " + foodSetString + ", Second: " + feelingsSetString + "\n";
-                                chiSquareTest(foodSetString,feelingsSetString);
-
+                                String temp = foodSetString + "," + feelingsSetString;
+                                listOfItems.add(temp);
                             }
-                        }*/
+                        }
                     }
                 }
-
             }
         }
-        chiSquareTest("ssss", "Headache");
-        HashMap<String, Object> params = new HashMap<>();
 
-        String s11 = "";
-        /***
-         * call the algorithm that is in the server (function called chiSquareTest)
-         * using ParseCloud codes. we send a map which contains all the n1-n4 parameters
-         * for the desired food&feelings variables and display results on screen
-         */
-        for (ChiSquareParams chiSquareParams : chiSquareParamsArrayList) {
-            params.put("n1", String.valueOf(chiSquareParams.n1));
-            params.put("n2", String.valueOf(chiSquareParams.n2));
-            params.put("n3", String.valueOf(chiSquareParams.n3));
-            params.put("n4", String.valueOf(chiSquareParams.n4));
-            s11 += chiSquareParams.toString() + "\n";
-        }
-        ParseCloud.callFunctionInBackground("chiSquareTest", params, new FunctionCallback<HashMap<String,String>>() {
-
-            @Override
-            public void done(HashMap<String,String> object, ParseException e) {
-                if (e == null) {
-                    Toast.makeText(DataAnalysisActivity.this, "Got size\n" + object.size(), Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
     }
 
     /***
@@ -178,7 +155,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
      * @param foodSetString
      * @param feelingsSetString
      */
-    private void chiSquareTest(String foodSetString, String feelingsSetString) {
+    public void chiSquareTest(String foodSetString, String feelingsSetString) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         for (Map.Entry<String, HashSet<String>> entryFood : DBFoodList.entrySet()) {
@@ -242,7 +219,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
             }   //end else
 
         }//end foreach DBFoodList
-        ChiSquareParams chiSquareParams = new ChiSquareParams(foodSetString, feelingsSetString, N1, N2, N3, N4);
+        chiSquareParams = new ChiSquareParams(foodSetString, feelingsSetString, N1, N2, N3, N4);
         N1 = 0;
         N2 = 0;
         N3 = 0;
@@ -338,8 +315,17 @@ public class DataAnalysisActivity extends AppCompatActivity {
         allDates = new HashSet<>();
         allFeelingKinds = new HashSet<>();
         allFoodKinds = new HashSet<>();
-        matrixParams = new int [2][2];
+        chiSquareParamsArrayList = new ArrayList<>();
+        listOfItems = new ArrayList<>();
         N1 = N2 = N3 = N4 = 0;
+        foodFeelingSpinner = findViewById(R.id.foodFeelingSpinner);
+        otherLabel = findViewById(R.id.otherLabel);
+        startAnalyzeButton = findViewById(R.id.startAnalyzeButton);
+        dataAnalysisLabel = findViewById(R.id.dataAnalysisLabel);
+        foodFeelingSpinner.setVisibility(View.GONE);
+        otherLabel.setVisibility(View.GONE);
+        startAnalyzeButton.setVisibility(View.GONE);
+
     }
 
     /***
@@ -353,13 +339,82 @@ public class DataAnalysisActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_analysis);
         progressBar = findViewById(R.id.progressBarDataAnalysis);
         progressBar.setVisibility(View.GONE);
+        progressBar2 = findViewById(R.id.progressBarDataAnalysis2);
+        progressBar2.setVisibility(View.GONE);
         setTitle("Data Analysis");
         initializeVariables();
+        initData();
+    }
+
+    private void initData() {
+        getDataToAnalyze("FeelingsHistory", "feeling");
+        allDates.clear();
+        getDataToAnalyze("FoodHistory", "whatEat");
+
+        String s = "";
+        Iterator<Map.Entry<String, HashSet<String>>> it;
+
+        it = DBFeeLingList.entrySet().iterator();   //to remove empty values from map
+        while (it.hasNext()) {
+            Map.Entry<String, HashSet<String>> e = it.next();
+            HashSet<String> value = e.getValue();
+            if (value.isEmpty() || e.getKey().isEmpty()) {
+                it.remove();
+            }
+        }
+
+        it = DBFoodList.entrySet().iterator();  //to remove empty values from map
+        while (it.hasNext()) {
+            Map.Entry<String, HashSet<String>> e = it.next();
+            HashSet<String> value = e.getValue();
+            if (value.isEmpty() || e.getKey().isEmpty()) {
+                it.remove();
+            }
+        }
+
+
+        Handler handler = new Handler();
+        progressBar2.setVisibility(View.VISIBLE);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initializeParametersForChiSquare();
+                if (listOfItems.isEmpty() || listOfItems == null) {
+
+                    Toast.makeText(DataAnalysisActivity.this, "No Food-Feelings pairs found for analyze.\n" , Toast.LENGTH_LONG).show();
+                    progressBar2.setVisibility(View.GONE);
+                    dataAnalysisLabel.setText("No Food-Feelings pairs found for analyze");
+                    dataAnalysisLabel.setTextColor(Color.RED);
+
+                } else {
+                    otherLabel.setVisibility(View.VISIBLE);
+                    foodFeelingSpinner.setVisibility(View.VISIBLE);
+                    startAnalyzeButton.setVisibility(View.VISIBLE);
+                    progressBar2.setVisibility(View.GONE);
+                    dataAnalysisLabel.setText("Provided pairs are food that you ate on Date X and feeling you felt" +
+                            " on maximum 2 days after");
+                    dataAnalysisLabel.setTextColor(Color.RED);
+
+                    initializeSpinnerFoodFeeling();
+                }
+            }
+        }, 3000);
+    }
+
+    /**
+     * Initialize spinner for 'select body part'
+     */
+    public void initializeSpinnerFoodFeeling() {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listOfItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        foodFeelingSpinner.setAdapter(adapter);
     }
 
 
     /**
-     * class ofr chi-square params
+     * class for chi-square params that contains 4 paramets (n1---n4)
      */
     private class ChiSquareParams {
         String food, feelings;

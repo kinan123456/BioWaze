@@ -11,26 +11,49 @@
         android:layout_height="fill_parent" >
         <RelativeLayout android:layout_height="fill_parent"
             android:layout_width="fill_parent">
+
             <TextView
                 android:id="@+id/dataAnalysisLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
-                android:text="Here you can check the analysis results of your provided Lifestyle Data."
+                android:text="Checking your stored data..."
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
-                android:textStyle="bold">
-            </TextView>
+                android:textStyle="bold"></TextView>
+
+
+            <TextView
+                android:id="@+id/otherLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="141dp"
+                android:layout_below="@+id/dataAnalysisLabel"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:text="Please select (Food,Feeling) pair below.\n\nResult is Dependent/Independent."
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:textStyle="bold"></TextView>
+
+            <Spinner
+                android:id="@+id/foodFeelingSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/otherLabel"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="20dp">
+            </Spinner>
             <Button
                 android:id="@+id/startAnalyzeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:layout_below="@id/dataAnalysisLabel"
+                android:layout_below="@id/foodFeelingSpinner"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
                 android:onClick="startAnalyzeClick"
-                android:text="Start The Analysis"
+                android:text="Check Relationship"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
@@ -42,6 +65,14 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="100dp"
                 android:layout_below="@+id/startAnalyzeButton" />
+
+            <ProgressBar
+                android:id="@+id/progressBarDataAnalysis2"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:layout_below="@+id/dataAnalysisLabel"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="30dp" />
 
         </RelativeLayout>
 
