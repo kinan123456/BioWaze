@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.MedicalCard.MedicalCardScreen;
 import com.example.myapplication.R;
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
@@ -428,6 +429,14 @@ public class DataAnalysisActivity extends AppCompatActivity {
                 }
             }
         }, 3000);
+    }
+
+    /***
+     * back button pressed
+     */
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), MedicalCardScreen.class));
     }
 
     /**

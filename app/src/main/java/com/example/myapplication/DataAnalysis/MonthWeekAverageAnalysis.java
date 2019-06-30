@@ -161,8 +161,6 @@ public class MonthWeekAverageAnalysis extends AppCompatActivity {
         } else {
             Toast.makeText(MonthWeekAverageAnalysis.this, "Based on your Stored Data:\nYou eat " + type + " in average each " + (30 / counter) + " day.", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     /***

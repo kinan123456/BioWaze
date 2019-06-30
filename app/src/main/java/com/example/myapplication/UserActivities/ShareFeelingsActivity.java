@@ -194,7 +194,7 @@ public class ShareFeelingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_feelings);
-        setTitle("Share Feelings");
+        setTitle("Store Feelings");
 
         initBodyPartSpinner();
         initFeelingSpinner();
