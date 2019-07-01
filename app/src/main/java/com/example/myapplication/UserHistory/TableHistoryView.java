@@ -52,17 +52,21 @@ public class TableHistoryView extends AppCompatActivity {
      * This is his Lifestyle history
      */
     public void getDataFromCloud() {
+
         ParseQuery<ParseObject> query;
         query = ParseQuery.getQuery(receivedListName);
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
         query.orderByAscending("createdAt");
         //query food history table compared to 'createdAt' column
         if (receivedListName.equals("FoodHistory")) {
+
             query.whereGreaterThanOrEqualTo("createdAt", startDate);
             query.whereLessThanOrEqualTo("createdAt",endDate);
         }
         //query feelings history table compared to 'startedDate' column not 'createdAt' column
         if (receivedListName.equals("FeelingsHistory")) {
+            startDate = new Date(startDate.getYear(), startDate.getMonth(), startDate.getDate()+1);
+            endDate = new Date(endDate.getYear(), endDate.getMonth(), endDate.getDate()+1);
             query.whereGreaterThanOrEqualTo("startedDate", startDate);
             query.whereLessThanOrEqualTo("startedDate",endDate);
         }

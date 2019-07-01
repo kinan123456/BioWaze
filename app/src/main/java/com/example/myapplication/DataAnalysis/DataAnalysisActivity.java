@@ -49,14 +49,14 @@ public class DataAnalysisActivity extends AppCompatActivity {
      */
     public static HashMap<String, HashSet<String>> DBFeeLingList, DBFoodList;
     private HashSet<String> allDates, allFoodKinds, allFeelingKinds;
-    private TextView otherLabel, dataAnalysisLabel;
+    private TextView otherLabel, dataAnalysisLabel, analysisResult;
     private ProgressBar progressBar, progressBar2;
     private ChiSquareParams chiSquareParams;
     private Spinner foodFeelingSpinner;
     private Button startAnalyzeButton, analyzeMoreButton;
     private String[] seperated;
+    private String selectedRowString;
     private ArrayList<String> listOfItems, spinnerItems;
-    private ArrayList<CountFood> countFoodList;
 
     /***
      *  Method to analyze lifestyle input data
@@ -74,7 +74,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
             public void run() {
 
-                String selectedRowString = (String) listOfItems.get(foodFeelingSpinner.getSelectedItemPosition());
+                selectedRowString = listOfItems.get(foodFeelingSpinner.getSelectedItemPosition());
                 seperated = selectedRowString.split(",");
                 chiSquareTest(seperated[0], seperated[1]);
                 HashMap<String, Object> params = new HashMap<>();
@@ -98,21 +98,25 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     @Override
                     public void done(HashMap<String, String> object, ParseException e) {
                         if (e == null) {
-                            String answer = object.get("answer");
-                            String depIndep = null;
-                            JSONObject jsonObject = null;
+
                             try {
+                                String answer = object.get("answer");
+                                String depIndep = null;
+                                JSONObject jsonObject = null;
                                 jsonObject = new JSONObject(answer);
                                 depIndep = (String) jsonObject.get("firstresult");
+                                Toast.makeText(DataAnalysisActivity.this, "\nFood: " + seperated[0] + ", Feeling: " + seperated[1]
+                                        + "\nBased on your data they're " + depIndep, Toast.LENGTH_LONG).show();
+                                analysisResult.setText("Relationship Result:\n" + selectedRowString + "\nBased on your data they're " +depIndep);
+                                analysisResult.setTextColor(Color.BLUE);
+                                analysisResult.setVisibility(View.VISIBLE);
+
 
                             } catch (JSONException e1) {
-                                e1.printStackTrace();
+                                Toast.makeText(DataAnalysisActivity.this, "JSON exception: " + e1.getMessage(), Toast.LENGTH_LONG).show();
                             }
-
-                            Toast.makeText(DataAnalysisActivity.this, "\nFood: " + seperated[0] + ", Feeling: " + seperated[1]
-                                    + "\nBased on your data they're " + depIndep, Toast.LENGTH_LONG).show();
-
-
+                        } else {
+                            Toast.makeText(DataAnalysisActivity.this, "Parse exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -343,7 +347,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
         allFoodKinds = new HashSet<>();
         listOfItems = new ArrayList<>();
         spinnerItems = new ArrayList<>();
-        countFoodList = new ArrayList<>();
+        analysisResult = findViewById(R.id.analysisResult);
         foodFeelingSpinner = findViewById(R.id.foodFeelingSpinner);
         otherLabel = findViewById(R.id.otherLabel);
         startAnalyzeButton = findViewById(R.id.startAnalyzeButton);
@@ -353,6 +357,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
         otherLabel.setVisibility(View.GONE);
         startAnalyzeButton.setVisibility(View.GONE);
         analyzeMoreButton.setVisibility(View.GONE);
+        analysisResult.setVisibility(View.GONE);
 
     }
 
@@ -471,16 +476,6 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     " \nn1: " + this.n1 + ", n2: " + this.n2 + ", n3: " + this.n3 + ", n4: " + this.n4 + "\n";
         }
 
-    }
-
-    private class CountFood {
-        private int count;
-        private String foodName;
-
-        public CountFood(int count, String foodName) {
-            this.count = count;
-            this.foodName = foodName;
-        }
     }
 
 }
