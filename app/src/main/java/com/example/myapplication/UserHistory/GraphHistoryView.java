@@ -1,17 +1,15 @@
-
 package com.example.myapplication.UserHistory;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.parse.FindCallback;
@@ -48,12 +46,14 @@ public class GraphHistoryView extends AppCompatActivity {
                         Toast.makeText(GraphHistoryView.this, "There's not enough data for your selection." + "\n" +
                                 "Please choose other category and try-again!", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getApplicationContext(), UserHistoryScreen.class));
+
                     }
                     else {
                         for (ParseObject obj : list) {
                             tempIntList.add(obj.getDouble(receivedListName));
                             tempDatesList.add(obj.getCreatedAt());
                         }
+
                         displayDataOnGraph();   //display the data in graph view
                     }
                 } else {
@@ -68,49 +68,36 @@ public class GraphHistoryView extends AppCompatActivity {
         int size = tempIntList.size();
         double y;
         Date x;
-        DataPoint[] dataPoints = new DataPoint[size];
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
 
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
         for (int i = 0; i < size; i++) {
             x = tempDatesList.get(i);
             y = tempIntList.get(i);
-            DataPoint dataPoint = new DataPoint(x.getTime(),y);
-            dataPoints[i] = dataPoint;
+            series.appendData(new DataPoint(x, y), true, size,true);
         }
-        Toast.makeText(GraphHistoryView.this, "size = " + size, Toast.LENGTH_LONG).show();
 
-        series = new LineGraphSeries<>(dataPoints);
-        series.setAnimated(true);
-        /*series.setDrawValuesOnTop(true);
-        series.setValuesOnTopColor(Color.RED);
-        series.setSpacing(10);
-*/
         graph.addSeries(series);
-
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Date");
-        graph.getGridLabelRenderer().setVerticalAxisTitle(receivedListName);
-        graph.getGridLabelRenderer().setNumVerticalLabels(tempIntList.size());
-        graph.getGridLabelRenderer().setNumHorizontalLabels(tempDatesList.size());
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, sdf));
-
-        graph.getViewport().setMinX(tempDatesList.get(0).getTime());
-        graph.getViewport().setMaxX(tempDatesList.get(size-1).getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-
-      /*  graph.getViewport().setMinY(tempIntList.get(tempIntList.indexOf(Collections.min(tempIntList))));
-        graph.getViewport().setMaxY(tempIntList.get(tempIntList.indexOf(Collections.max(tempIntList))));
-        graph.getViewport().setYAxisBoundsManual(true);
-
         graph.getViewport().setScrollable(true);
-        graph.getViewport().setScrollableY(true);
-        graph.getViewport().setScalable(true);
-        graph.getViewport().setScalableY(true);*/
+        graph.getGridLabelRenderer().setVerticalAxisTitle(receivedListName);
+
+        // display Date format on x axis
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            public String formatLabel(double value, boolean isValueX) {
+
+                if (isValueX) {
+                    return sdf.format(new Date((long) value));
+                } else
+                    return super.formatLabel(value, isValueX);
+            }
+        });
     }
 
 
     private void initVariables() {
         tempIntList = new ArrayList<>();
         tempDatesList = new ArrayList<>();
+        series = new LineGraphSeries<>();
         graph = findViewById(R.id.graph);
 
     }

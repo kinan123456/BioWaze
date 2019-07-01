@@ -59,12 +59,17 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"></Button>
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/analysisResult"
+                android:layout_below="@id/startAnalyzeButton">
 
+            </TextView>
             <Button
                 android:id="@+id/analyzeMoreButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/startAnalyzeButton"
+                android:layout_below="@id/analysisResult"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="50dp"
                 android:onClick="analyzeMoreButtonClick"
