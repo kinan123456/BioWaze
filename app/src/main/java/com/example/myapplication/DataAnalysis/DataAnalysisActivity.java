@@ -55,7 +55,9 @@ public class DataAnalysisActivity extends AppCompatActivity {
     private Spinner foodFeelingSpinner;
     private Button startAnalyzeButton, analyzeMoreButton;
     private String[] seperated;
+    private int totalCountOfExceptions = 0, chiTimes = 0;
     private String selectedRowString;
+    private boolean flag = false;
     private ArrayList<String> listOfItems, spinnerItems;
 
     /***
@@ -68,6 +70,7 @@ public class DataAnalysisActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         analyzeMoreButton.setVisibility(View.GONE);
+        analysisResult.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
             @Override
@@ -98,25 +101,22 @@ public class DataAnalysisActivity extends AppCompatActivity {
                     @Override
                     public void done(HashMap<String, String> object, ParseException e) {
                         if (e == null) {
+                            String answer = object.get("answer");
 
-                            try {
-                                String answer = object.get("answer");
-                                String depIndep = null;
-                                JSONObject jsonObject = null;
-                                jsonObject = new JSONObject(answer);
-                                depIndep = (String) jsonObject.get("firstresult");
-                                Toast.makeText(DataAnalysisActivity.this, "\nFood: " + seperated[0] + ", Feeling: " + seperated[1]
-                                        + "\nBased on your data they're " + depIndep, Toast.LENGTH_LONG).show();
-                                analysisResult.setText("Relationship Result:\n" + selectedRowString + "\nBased on your data they're " +depIndep);
-                                analysisResult.setTextColor(Color.BLUE);
-                                analysisResult.setVisibility(View.VISIBLE);
+                            analysisResult.setText("Based on your data, ''" + selectedRowString + "''" +
+                                    " are " + answer);
+                            analysisResult.setTextColor(Color.BLUE);
+                            analysisResult.setVisibility(View.VISIBLE);
 
-
-                            } catch (JSONException e1) {
-                                Toast.makeText(DataAnalysisActivity.this, "JSON exception: " + e1.getMessage(), Toast.LENGTH_LONG).show();
-                            }
                         } else {
-                            Toast.makeText(DataAnalysisActivity.this, "Parse exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(DataAnalysisActivity.this, "The test is not applicable." +
+                                    " There's not enough data to analyze for ''" + selectedRowString + "''." +
+                                    "Either choose other pair or store more data", Toast.LENGTH_LONG).show();
+                            analysisResult.setText("The test is not applicable." +
+                                    " There's not enough data to analyze for ''" + selectedRowString + "''." +
+                                    "Either choose other pair or store more data");
+                            analysisResult.setTextColor(Color.RED);
+                            analysisResult.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -169,14 +169,32 @@ public class DataAnalysisActivity extends AppCompatActivity {
                             for (String feelingsSetString : entryFeelings.getValue()) {
                                 String temp = foodSetString + "," + feelingsSetString;
                                 String temp2 = foodSetString + " on " + foodEattenDateString + ", " + feelingsSetString + " on " + feelingsSharedDateString;
-                                listOfItems.add(temp);
-                                spinnerItems.add(temp2);
+                                chiSquareTest(foodSetString, feelingsSetString);
+                                if (calcExpected() == false) {
+                                    listOfItems.add(temp);
+                                    spinnerItems.add(temp2);
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        Toast.makeText(DataAnalysisActivity.this, "Total count of exceptions is: " + totalCountOfExceptions, Toast.LENGTH_LONG).show();
+
+    }
+
+    private boolean calcExpected() {
+        int totalFirstRow = chiSquareParams.n1 + chiSquareParams.n2;
+        int totalSecondRow = chiSquareParams.n3 + chiSquareParams.n4;
+        int totalFirstColumn = chiSquareParams.n1 + chiSquareParams.n3;
+        int totalSecondColumn = chiSquareParams.n2 + chiSquareParams.n4;
+        int totalAll = chiSquareParams.n1 + chiSquareParams.n2 + chiSquareParams.n3 + chiSquareParams.n4;
+        int expected_N1, expected_N2, expected_N3, expected_N4;
+
+        if (totalFirstRow <= 0 || totalSecondRow <= 0 || totalFirstColumn <= 0 || totalSecondColumn <= 0)
+            return true;
+        return false;
     }
 
     /***
