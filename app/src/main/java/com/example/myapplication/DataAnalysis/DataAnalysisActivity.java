@@ -180,8 +180,6 @@ public class DataAnalysisActivity extends AppCompatActivity {
                 }
             }
         }
-        Toast.makeText(DataAnalysisActivity.this, "Total count of exceptions is: " + totalCountOfExceptions, Toast.LENGTH_LONG).show();
-
     }
 
     private boolean calcExpected() {
